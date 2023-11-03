@@ -1,0 +1,22 @@
+{% extends "AstroHub/base.html" %}
+
+{% block content %}
+    <h1>Profile</h1>
+
+    <div class="profile-details">
+        <h2>User Information</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    </div>
+
+    <div class="profile-form">
+        <h2>Edit Profile</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ profile_form.as_p }}
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}
