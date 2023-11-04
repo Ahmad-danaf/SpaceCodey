@@ -94,8 +94,15 @@ def user_profile(request):
 
         if profile_form.is_valid():
             profile_form.save()  # Save the form data to the user's profile
-            user.first_name = profile_form.cleaned_data['first_name']
-            user.last_name = profile_form.cleaned_data['last_name']
+            # Check if first_name has changed and is not empty
+            new_first_name = profile_form.cleaned_data['first_name']
+            if new_first_name and new_first_name != user.first_name:
+                user.first_name = new_first_name
+
+            # Check if last_name has changed and is not empty
+            new_last_name = profile_form.cleaned_data['last_name']
+            if new_last_name and new_last_name != user.last_name:
+                user.last_name = new_last_name
             user.save()  # Save the user with updated first name and last name
             return redirect('home')
 

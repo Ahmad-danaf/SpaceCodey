@@ -11,21 +11,22 @@
         <p><strong>Last Name:</strong> {{ user.last_name }}</p>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
     </div>
-    <div class="profile-picture">
+    {% comment %} <div class="profile-picture">
         <h2>Profile Picture</h2>
         {% if profile.profile_picture %}
             <img src="{{ profile.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture" class="img-responsive">
         {% else %}
             <p>No profile picture available</p>
         {% endif %}
-    </div>
+    </div> {% endcomment %}
 
     <div class="profile-form">
         <h2>Edit Profile</h2>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
+        {% comment %} <form method="post" enctype="multipart/form-data"> {% endcomment %}
             {% csrf_token %}
             {{ profile_form.as_p }}
-            <button type="submit">Save</button>
+            <button type="submit">Save Changes</button>
         </form>
     </div>
 {% endblock %}
