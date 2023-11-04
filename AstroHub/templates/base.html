@@ -79,7 +79,7 @@
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'account:logout' %}">Logout</a></li>
                         {% else %}
-                            <li><a href="{% url 'account:logout' %}">Login</a></li>
+                            <li><a href="{% url 'account:login' %}">Login</a></li>
                             <li><a href="{% url 'account:register' %}">Signup</a></li>
                         {% endif %}
                         <li><a href="#">Contact Us</a></li>

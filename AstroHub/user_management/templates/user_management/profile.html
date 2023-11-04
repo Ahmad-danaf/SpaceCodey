@@ -9,6 +9,15 @@
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>First Name:</strong> {{ user.first_name }}</p>
         <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    </div>
+    <div class="profile-picture">
+        <h2>Profile Picture</h2>
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture" class="img-responsive">
+        {% else %}
+            <p>No profile picture available</p>
+        {% endif %}
     </div>
 
     <div class="profile-form">
@@ -16,7 +25,7 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ profile_form.as_p }}
-            <button type="submit">Save Changes</button>
+            <button type="submit">Save</button>
         </form>
     </div>
 {% endblock %}
