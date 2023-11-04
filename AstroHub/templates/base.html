@@ -24,7 +24,7 @@
 
     </head>
 
-    <body>
+    {% comment %} <body>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -42,12 +42,47 @@
     
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                            <li><a href="{% url user_management:'logout' %}">Logout</a></li>
                         {% else %}
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                            <li><a href="{% url 'signup' %}">Signup</a></li>
+                            <li><a href="{% url user_management:'login' %}">Login</a></li>
+                            <li><a href="{% url user_management:'register' %}">Signup</a></li>
                         {% endif %}
                         <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container mycontent">
+            {% block content %}
+  
+            {% endblock %}
+  
+          </div>
+    </body> {% endcomment %}
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'home' %}">AstroHub</a>
+                </div>
+    
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Event Calendar</a></li>
+                        <li><a href="#">Weather</a></li>
+                        <li><a href="#">Tips</a></li>
+                    </ul>
+    
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'account:logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'account:logout' %}">Login</a></li>
+                            <li><a href="{% url 'account:register' %}">Signup</a></li>
+                        {% endif %}
+                        <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
