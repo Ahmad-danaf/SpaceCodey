@@ -50,7 +50,7 @@ def user_login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('account:profile')  # Redirect to the user's profile page after login
+            return redirect('home')  
         else:
             # Handle form validation errors
             for field, error in form.errors.items():
