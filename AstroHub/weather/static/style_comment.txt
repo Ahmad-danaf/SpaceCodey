@@ -1,29 +1,71 @@
+/* Navbar styling */
+nav {
+  background-color: #4CAF50; /* Change the background color to your desired color */
+  padding: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 50px;
+}
+
 form {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 10px;
   margin: 20px 0;
 }
 
 input[type="text"] {
-  padding: 10px;
-  border: 2px solid #E9E3C5;
+  padding: 5px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #E9E3C5;
 }
+
 button {
-  background-color: #FFD700; /* Gold color */
-  color: black;
-  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
 }
 
+.forecast-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-button:hover {
-  background-color: #C3A778; /* Slightly darker gold on hover */
-} 
+.forecast {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 10px;
+  width: calc(100% / 5 - 20px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .forecast {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast {
+    width: 100%;
+  }
+}
+

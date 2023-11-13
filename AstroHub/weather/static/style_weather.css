@@ -1,12 +1,16 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
+}
+#weather_content {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
   text-align: center;
   padding: 50px;
 }
 
 form {
-  margin: 20px 0;
+  margin: 1px 0;
 }
 
 input[type="text"] {
@@ -51,3 +55,4 @@ button {
     width: 100%;
   }
 }
+

@@ -1,0 +1,89 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Main Content Styles */
+#output {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Loading Spinner Styles */
+#loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Image Styles */
+#img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Title Styles */
+#title {
+    font-size: 1.8em; 
+    font-weight: bolder; 
+    margin-bottom: 10px; 
+}
+
+/* Explanation Styles */
+#explanation {
+    line-height: 1.5; /* Increased line height for better readability */
+    font-size: 1.2em; /* Slightly increased font size */
+    margin-bottom: 15px; /* Increased margin for better spacing */
+    font-weight: bold;
+}
+
+/* Copyright Styles */
+#copyright {
+    font-style: italic;
+    font-size: 1em; 
+    font-weight: normal;
+    margin-bottom: 15px; 
+}
+
+#attribution {
+    font-style: italic;
+    font-size: 1em; 
+    font-weight: bold; 
+    margin-bottom: 15px; 
+}
+
+/* Loader Styles */
+.loader {
+    height: 40px;
+    width: 40px;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.loader svg {
+    fill: #FF6700;
+}
+
+/*
+  Original loading icon by Phil on CodePen:
+  https://codepen.io/aurer/pen/ZEJxpO
+*/

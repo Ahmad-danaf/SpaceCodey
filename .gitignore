@@ -1,0 +1,21 @@
+# Ignore the .env file
+AstroHub/AstroHub/.env
+
+# Ignore the apifile.py file in the weather app
+AstroHub/weather/apifile.py
+
+# Ignore virtual environment
+venv/
+
+# Ignore database
+AstroHub/db.sqlite3
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore local settings
+local_settings.py
+
+# Ignore debug files
+AstroHub/api_response.txt
+AstroHub/forcast_api_response.txt
