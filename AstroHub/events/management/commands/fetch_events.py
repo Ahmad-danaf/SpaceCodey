@@ -1,26 +1,32 @@
 import requests
 from django.core.management.base import BaseCommand
-from events.models import Event  # Replace 'app_name' with your app name
+from events.models import NASAEvent  
 
 class Command(BaseCommand):
     help = 'Fetch and store events from the API'
 
     def handle(self, *args, **kwargs):
-        api_url = "https://ll.thespacedevs.com/2.2.0/event/"
+        NASAEvent.objects.all().delete()
+        api_url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events'
+        params = {
+            'limit': 10,  # Fetching 10 events
+            'days': 30,   # from the last 30 days
+        }
 
-        response = requests.get(api_url)
+        response = requests.get(api_url, params=params)
 
         if response.status_code == 200:
-            event_data = response.json()
-
-            for event in event_data.get('results', []):
-                Event.objects.create(
-                    name=event['name'],
-                    description=event['description'],
-                    date=event['date'],
-                    location=event['location']
+            data = response.json().get('events', [])
+            for event in data:
+                nasa_event = NASAEvent(
+                    event_id=event.get('id'),
+                    title=event.get('title'),
+                    description=event.get('description', ''),
+                    link=event.get('link'),
+                    categories=', '.join([category.get('title') for category in event.get('categories', [])]),
+                    sources=', '.join([source.get('url') for source in event.get('sources', [])]),
                 )
-
-            self.stdout.write(self.style.SUCCESS('Events fetched and stored successfully.'))
+                nasa_event.save()
         else:
-            self.stderr.write(self.style.ERROR('Failed to fetch events from the API.'))
+            # remmeber to change to log
+            print('Failed to fetch NASA events:', response.status_code)

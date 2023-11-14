@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from events.models import Event
+from events.models import NASAEvent
 from datetime import datetime
 
 class Command(BaseCommand):
@@ -10,7 +10,7 @@ class Command(BaseCommand):
         cutoff_date = datetime.now()  # Adjust this date as needed
 
         # Use the filter method to get events older than the cutoff date
-        old_events = Event.objects.filter(date__lt=cutoff_date)
+        old_events = NASAEvent.objects.filter(date__lt=cutoff_date)
 
         # Delete the old events
         deleted_count, _ = old_events.delete()
