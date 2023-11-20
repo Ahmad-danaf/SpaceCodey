@@ -16,8 +16,9 @@ def event_detail(request, event_id):
     return render(request, 'events/event_detail.html', {'event': event, 'sources': sources})
 
 
-# Changed from a time-consuming function-based view to a management command---
-# ---for scheduled updates of the NASAEvent model.
+#  Changed from a time-consuming function-based view to a management commandfor scheduled updates of-
+#   the NASAEvent model.
+
 # def fetch_new_events():
 #     NASAEvent.objects.all().delete()
 #     api_url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events'

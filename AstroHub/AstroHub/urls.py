@@ -19,6 +19,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('landing-page',views.LandingPage.as_view(),name='landing-page'),
     re_path(r"^$", views.HomePage.as_view(), name="home"),
     path('',include('user_management.urls', namespace='account')),
     path('',include('events.urls', namespace='events')),
