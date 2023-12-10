@@ -39,32 +39,29 @@ def weather_index(request):
 
 
 def fetch_weather_and_forecast(city, api_key, current_weather_url, forecast_url):
-    # Initialize error_message variables
     error_message = None
-
-    # Initialize weather_data and daily_forecasts as None
     weather_data = None
     daily_forecasts = None
     
-    # Send a request to get current weather data
+    
     current_response = requests.get(current_weather_url.format(city, api_key))
     
-    # Check if the response status code indicates success (200)
+    
     if current_response.status_code == 200:
         current_data = current_response.json()
         lat, lon = current_data['coord']['lat'], current_data['coord']['lon']
         
-        # Send a request to get the forecast data
+        
         forecast_response = requests.get(forecast_url.format(lat, lon, api_key))
         
-        # Check if the forecast response is successful
+       
         if forecast_response.status_code == 200:
             forecast_data = forecast_response.json()
             
-            # Extract the list of forecasts
+            
             forecast_list = forecast_data.get('list', [])
             
-            # Initialize weather_data and daily_forecasts
+            
             weather_data = {
                 'city': city,
                 'temperature': round(current_data['main']['temp'] - 273.15, 2),
@@ -97,12 +94,12 @@ def fetch_weather_and_forecast(city, api_key, current_weather_url, forecast_url)
         else:
             # Handle the case where the forecast request fails
             error_message = "Failed to fetch forecast data. Please try again later."
-            # try to log the error for debugging
+            # planing log this error
             #print("Failed to fetch forecast data:", forecast_response.status_code)
     else:
         # Handle the case where the current weather request fails
         error_message = "City not found. Please enter a valid city name."
-        # try to log the error for debugging
+        # planing log this error 
         # print("City not found:", current_response.status_code)
     
     return weather_data, daily_forecasts, error_message
