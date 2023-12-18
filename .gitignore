@@ -1,5 +1,5 @@
-# Ignore the .env file
-AstroHub/AstroHub/.env
+# Ignore .env files
+*.env
 
 # Ignore the apifile.py file in the weather app
 AstroHub/weather/apifile.py
