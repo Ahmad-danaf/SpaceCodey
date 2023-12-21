@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django.shortcuts import render
 from dotenv import load_dotenv
 import requests
@@ -43,3 +44,8 @@ def nasa_apod(request):
     else:
         error_message = f"Error loading NASA data. Status code: {response_apod.status_code}"
         return render(request, 'error_template.html', {'error_message': error_message})
+
+
+class ISS_tracker(TemplateView):
+    template_name = "ISS_tracker.html"
+    
