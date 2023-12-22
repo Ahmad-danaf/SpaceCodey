@@ -13,7 +13,14 @@
 
 
         {# Custom CSS#}
-        {% block extracss %}{% endblock %}
+        {% block extracss %}
+        {% endblock %}
+        <style>
+            .navbar-toggle .icon-bar {
+                background-color: red ;
+            }
+
+        </style>
 
         {# Fonts#}
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,34 +30,39 @@
 
     </head>
     <body> 
-            
-        <nav class="navbar  mynav" role="navigation" id="navbar">
-                    <div class="container">
-                <ul class="nav navbar-nav">
-                <a class="navbar-brand" href="{% url 'home' %}">AstroHub</a>
-                <li><a href="{% url 'nasa:nasa_apod' %}">NASA APOD</a></li>
-                <li><a href="{% url 'nasa:ISS-tracker' %}">ISS tracker</a></li>
-                <li><a href="{% url 'events:event_list' %}">Events</a></li>
-                <li><a href="{% url 'weather:weather_index' %}">Weather</a></li>
-                    <li><a href="#">Tips</a></li>
-                </ul>
-
-                            <ul class="nav navbar-nav navbar-right">
-                                {% if user.is_authenticated %}
-                                    <li><a href="{% url 'account:logout' %}">Logout</a></li>
-                                    <li><a href="{% url 'account:profile' %}">profile</a></li>
-                                {% else %}
-                                    <li><a href="{% url 'account:login' %}">Login</a></li>
-                                    <li><a href="{% url 'account:register' %}">Signup</a></li>
-                                {% endif %}
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="{% url "landing-page" %}">Landing Page</a></li>
-                            </ul>
-
-
-
-                    </div>
-                </nav>
+        <nav class="navbar mynav navbar-expand-lg navbar-light bg-light" role="navigation" id="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar" ></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home' %}">AstroHub</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'nasa:nasa_apod' %}">NASA APOD</a></li>
+                        <li><a href="{% url 'nasa:ISS-tracker' %}">ISS tracker</a></li>
+                        <li><a href="{% url 'events:event_list' %}">Events</a></li>
+                        <li><a href="{% url 'weather:weather_index' %}">Weather</a></li>
+                        <li><a href="#">Tips</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'account:logout' %}">Logout</a></li>
+                            <li><a href="{% url 'account:profile' %}">Profile</a></li>
+                        {% else %}
+                            <li><a href="{% url 'account:login' %}">Login</a></li>
+                            <li><a href="{% url 'account:register' %}">Signup</a></li>
+                        {% endif %}
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="{% url 'landing-page' %}">Landing Page</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
             <div class="container mycontent">
             {% block content %}
 
@@ -59,8 +71,9 @@
             </div>
             
         <!-- bootstrap:Latest compiled and minified JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-        {% block extrajs %}{% endblock %}
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>        {% block extrajs %}{% endblock %}
     </body>
 
 </html>
