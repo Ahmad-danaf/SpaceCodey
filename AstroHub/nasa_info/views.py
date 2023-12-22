@@ -43,9 +43,9 @@ def nasa_apod(request):
         return render(request, 'nasa_info/nasa_apod.html', context)
     else:
         error_message = f"Error loading NASA data. Status code: {response_apod.status_code}"
-        return render(request, 'error_template.html', {'error_message': error_message})
+        return render(request, 'nasa_info/error_template.html', {'error_message': error_message})
 
 
 class ISS_tracker(TemplateView):
-    template_name = "ISS_tracker.html"
+    template_name = "nasa_info/ISS_tracker.html"
     

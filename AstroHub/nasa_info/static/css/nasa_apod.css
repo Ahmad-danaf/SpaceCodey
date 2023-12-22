@@ -1,9 +1,47 @@
-/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    
+}
+
+.nasa_apod_body {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.card-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+#attribution {
+    margin-top: 10px;
 }
 
 /* Header Styles */
@@ -12,32 +50,7 @@ header {
     background-color: #333;
     color: #fff;
     padding: 10px;
-}
-
-/* Main Content Styles */
-#output {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-/* Loading Spinner Styles */
-#loading-spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Image Styles */
-#img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
 /* Title Styles */
@@ -69,21 +82,3 @@ header {
     font-weight: bold; 
     margin-bottom: 15px; 
 }
-
-/* Loader Styles */
-.loader {
-    height: 40px;
-    width: 40px;
-    margin: 0 auto 1em;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.loader svg {
-    fill: #FF6700;
-}
-
-/*
-  Original loading icon by Phil on CodePen:
-  https://codepen.io/aurer/pen/ZEJxpO
-*/
