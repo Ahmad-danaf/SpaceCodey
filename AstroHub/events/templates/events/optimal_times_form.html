@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/optimal_times_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Calculate Optimal Shooting Times</h1>
+    <form id="optimalTimesForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Calculate</button>
+    </form>
+    <div id="results"></div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'js/optimal_times_form.js' %}"></script>
+
+{% endblock %}
+

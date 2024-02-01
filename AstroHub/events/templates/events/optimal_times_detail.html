@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/optimal_times_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Optimal Shooting Times for Astrophotography</h1>
+    
+    <div id="optimalTimesList">
+        {% if optimal_times %}
+            <p>Here are the optimal shooting times:</p>
+            <ul>
+                {% for time in optimal_times %}
+                    <li>{{ time }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No optimal shooting times available.</p>
+        {% endif %}
+    </div>
+
+    <p>Calculation based on factors like moonrise and moonset times, sunset and sunrise times, and astronomical twilight.</p>
+
+    <!-- Weather forecast link -->
+    <p>For weather forecasts, check the <a class="weather-link" href="{% url 'weather:weather_index' %}">weather forecast</a>.</p>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'js/optimal_times_detail.js' %}"></script>
+
+{% endblock %}
+
