@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Landing Page</title>
     <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
-    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+    <link rel="preload" href="{% static 'images/astronomy.jpg' %}" as="image">
+    <link rel="preload" href="{% static 'images/programmer.png' %}" as="image">
   </head>
   <body>
     <div class="container">
@@ -17,9 +18,9 @@
       </div>
       <div class="split right">
         <h1>The Programmer</h1>
-        <a href="#" class="button">About Me</a>
+        <a href="https://www.linkedin.com/in/ahmad-danaf-b37261215/" class="button">About Me</a>
       </div>
     </div>
-  <script src="{% static 'js/landing_page.js' %}"></script>
+    <script src="{% static 'js/landing_page.js' %}"></script>
   </body>
 </html>

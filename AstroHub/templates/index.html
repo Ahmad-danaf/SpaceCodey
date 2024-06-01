@@ -1,14 +1,150 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 {% block extracss %}
-   <link rel="stylesheet" href="{% static 'AstroHub/css/master.css' %}">
+<style>
+    body {
+        background-color: #0d0d2b;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+    }
+    .hero {
+        background: url('https://example.com/space-image.jpg') no-repeat center center;
+        background-size: cover;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 4em;
+        margin: 0;
+    }
+    .hero p {
+        font-size: 1.5em;
+    }
+    .features {
+        padding: 2em 0;
+    }
+    .feature {
+        text-align: center;
+        padding: 1em;
+    }
+    .feature h2 {
+        color: #f39c12;
+    }
+    .feature p {
+        color: #d3d3d3;
+    }
+    .navbar-toggle .icon-bar {
+        background-color: #f39c12;
+    }
+    .footer {
+        background-color: #111;
+        color: #d3d3d3;
+        text-align: center;
+        padding: 1em 0;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        background-color: #f39c12;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+</style>
 {% endblock %}
+
 {% block content %}
-   <h1>AstroHub</h1>
-   
-   <canvas id="canvas"></canvas>
+<div class="hero">
+    <div>
+        <h1>Welcome to AstroHub</h1>
+        <p>Your ultimate destination for astrophotography and space exploration.</p>
+    </div>
+</div>
+
+<div class="container features">
+    <div class="row">
+        <div class="col-md-4 feature">
+            <h2>NASA APOD</h2>
+            <p>Explore the astronomy picture of the day.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>ISS Tracker</h2>
+            <p>Track the International Space Station in real-time.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Weather</h2>
+            <p>Get weather updates and compare forecasts for two cities.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 feature">
+            <h2>Optimal Shoot Times</h2>
+            <p>Calculate the best times for astrophotography.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Astronomy Tracker</h2>
+            <p>Track celestial body positions and stay updated with the latest astronomy events for your selected bodies.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Tips & Articles</h2>
+            <p>Read tips and articles about astronomy and astrophotography.</p>
+        </div>
+    </div>
+</div>
+
+<button class="scroll-to-top">Top</button>
+
+<div class="footer">
+    <p>&copy; 2024 AstroHub. All rights reserved.</p>
+</div>
 {% endblock %}
 
 {% block extrajs %}
-   <script src="{% static 'AstroHub/js/master.js' %}" type="text/javascript" ></script>
+<script>
+    $(document).ready(function() {
+        // Smooth scrolling for internal links
+        $('a[href*="#"]:not([href="#"])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+
+        // Scroll to top button
+        var scrollTopButton = $('.scroll-to-top');
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 100) {
+                scrollTopButton.fadeIn();
+            } else {
+                scrollTopButton.fadeOut();
+            }
+        });
+
+        scrollTopButton.click(function() {
+            $('html, body').animate({scrollTop: 0}, 1000);
+            return false;
+        });
+
+        // Navbar change on scroll
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('#navbar').addClass('scrolled');
+            } else {
+                $('#navbar').removeClass('scrolled');
+            }
+        });
+    });
+</script>
 {% endblock %}

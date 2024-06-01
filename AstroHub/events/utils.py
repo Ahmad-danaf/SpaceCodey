@@ -1,5 +1,9 @@
 import ephem
 from datetime import datetime, timedelta
+import requests
+import base64
+import os
+from dotenv import load_dotenv
 
 def calculate_optimal_shooting_times(lat, lon, date, duration_hours):
     observer = ephem.Observer()
@@ -44,12 +48,56 @@ def calculate_optimal_shooting_times(lat, lon, date, duration_hours):
     return formatted_times
 
 
-# test:
-# lat = 31.945368
-# lon = 35.928371
-# date = '2024-07-01 17:00:00'
-# duration_hours = 24
 
-# optimal_times = calculate_optimal_shooting_times(lat, lon, date, duration_hours)
+def get_auth_string():
+    load_dotenv()
+    userpass = f"{os.getenv('ASTRONOMY_API_ID')}:{os.getenv('ASTRONOMY_API_SECRET')}"
+    return base64.b64encode(userpass.encode()).decode()
 
-# print(optimal_times)
+def fetch_body_positions(latitude, longitude, elevation, from_date, to_date, time):
+    url = "https://api.astronomyapi.com/api/v2/bodies/positions"
+    auth_string = get_auth_string()
+    
+    headers = {
+        "Authorization": f"Basic {auth_string}"
+    }
+    
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "elevation": elevation,
+        "from_date": from_date,
+        "to_date": to_date,
+        "time": time,
+        "output": "table"
+    }
+    
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
+
+def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, time):
+    supported_bodies = ['sun', 'moon']
+    if body.lower() not in supported_bodies:
+        return {'error': f'Events data for {body} is not supported by the API.'}
+    
+    url = f"https://api.astronomyapi.com/api/v2/bodies/events/{body}"
+    auth_string = get_auth_string()
+    
+    headers = {
+        "Authorization": f"Basic {auth_string}"
+    }
+    
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "elevation": elevation,
+        "from_date": from_date,
+        "to_date": to_date,
+        "time": time,
+        "output": "table"
+    }
+    
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
