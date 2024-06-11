@@ -3,7 +3,7 @@ import requests
 import base64
 import os
 from dotenv import load_dotenv
-
+from utils import best_astrophotography_times
 
 def test_fetch_body_events():
     def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, time):
@@ -62,3 +62,14 @@ def test_fetch_body_events():
         print("Failed to fetch events")
 
         
+def test_best_astrophotography_times():
+    lat = 31.930201   
+    lon = 34.866810  
+    date_str = "2024:06:15 20:00:00"
+    duration_hours = 12
+
+    best_times = best_astrophotography_times(lat, lon, date_str, duration_hours)
+    for time in best_times:
+        print(time)
+
+test_best_astrophotography_times()

@@ -1,9 +1,77 @@
 import ephem
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import requests
 import base64
 import os
 from dotenv import load_dotenv
+import pytz
+from timezonefinder import TimezoneFinder
+
+
+def best_astrophotography_times(lat, lon, date_str, duration_hours):
+    # Find the local time zone based on latitude and longitude
+    tf = TimezoneFinder()
+    local_time_zone = tf.timezone_at(lng=lon, lat=lat)
+    if local_time_zone is None:
+        raise ValueError("Could not determine the time zone for the provided coordinates.")
+    
+    local = pytz.timezone(local_time_zone)
+    
+    # Convert input date string to a datetime object
+    date = datetime.strptime(date_str, "%Y:%m:%d %H:%M:00")
+    
+    # Localize the datetime object to the local time zone
+    local_date = local.localize(date)
+    
+    # Convert to UTC for ephem calculations
+    utc_date = local_date.astimezone(pytz.utc)
+    
+    # Initialize observer location
+    observer = ephem.Observer()
+    observer.lat = str(lat)
+    observer.lon = str(lon)
+    observer.date = utc_date
+    
+    # Calculate sunset and sunrise times in UTC
+    observer.horizon = '-6'  # Twilight horizon
+    sunset_utc = observer.next_setting(ephem.Sun()).datetime().replace(tzinfo=pytz.utc)
+    sunrise_utc = observer.next_rising(ephem.Sun(), start=sunset_utc).datetime().replace(tzinfo=pytz.utc)
+    
+    # Convert sunset and sunrise times back to local time
+    sunset = sunset_utc.astimezone(local)
+    sunrise = sunrise_utc.astimezone(local)
+    
+    
+    # print(f"Sunset (local): {sunset}, Sunrise (local): {sunrise}") # debug info for sunset and sunrise
+    
+    # Initialize variables
+    end_time = local_date + timedelta(hours=duration_hours)
+    times = []
+    sun = ephem.Sun()
+    moon = ephem.Moon()
+    
+    # Calculate best times for astrophotography in 30-minute intervals in local time
+    current_time = local_date
+    while current_time < end_time:
+        utc_current_time = current_time.astimezone(pytz.utc)
+        observer.date = utc_current_time
+        sun.compute(observer)
+        moon.compute(observer)
+        
+        sun_altitude = sun.alt
+        moon_altitude = moon.alt
+        moon_phase = moon.phase
+        
+        # Check if the Sun is below the horizon and the Moon is not too bright
+        # Allowing some flexibility for the moon's altitude, e.g., moon_altitude < 10 degrees and moon_phase < 50%
+        if sun_altitude < -6 * ephem.degree and (moon_altitude < 10 * ephem.degree or moon_phase < 50):  
+            times.append(current_time.strftime("%Y-%m-%d %H:%M:%S"))
+        
+        if current_time >= sunrise:  # Break the loop if current time is past sunrise
+            break
+        current_time += timedelta(minutes=30)
+    
+    return times
 
 def calculate_optimal_shooting_times(lat, lon, date, duration_hours):
     observer = ephem.Observer()
