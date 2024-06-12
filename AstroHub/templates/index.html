@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block extracss %}
 <style>
     body {
-        background-color: #0d0d2b;
+        background-color: #1b1b1b;
         color: white;
         font-family: 'Roboto', sans-serif;
     }
     .hero {
-        background: url('https://example.com/space-image.jpg') no-repeat center center;
         background-size: cover;
         height: 60vh;
         display: flex;
@@ -25,22 +26,31 @@
     }
     .features {
         padding: 2em 0;
+        background-color: #262626;
     }
     .feature {
         text-align: center;
         padding: 1em;
+        border-radius: 10px;
+        background-color: #333333;
+        margin: 10px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s;
+    }
+    .feature:hover {
+        transform: scale(1.05);
     }
     .feature h2 {
-        color: #f39c12;
+        color: #ff9f1c;
     }
     .feature p {
         color: #d3d3d3;
     }
     .navbar-toggle .icon-bar {
-        background-color: #f39c12;
+        background-color: #ff9f1c;
     }
     .footer {
-        background-color: #111;
+        background-color: #1b1b1b;
         color: #d3d3d3;
         text-align: center;
         padding: 1em 0;
@@ -50,11 +60,12 @@
         bottom: 20px;
         right: 20px;
         display: none;
-        background-color: #f39c12;
+        background-color: #ff9f1c;
         color: white;
         border: none;
         padding: 10px 15px;
         border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 {% endblock %}
@@ -62,7 +73,7 @@
 {% block content %}
 <div class="hero">
     <div>
-        <h1>Welcome to AstroHub</h1>
+        <h1>Welcome to CodeStarHub</h1>
         <p>Your ultimate destination for astrophotography and space exploration.</p>
     </div>
 </div>
@@ -101,7 +112,7 @@
 <button class="scroll-to-top">Top</button>
 
 <div class="footer">
-    <p>&copy; 2024 AstroHub. All rights reserved.</p>
+    <p>&copy; 2024 CodeStarHub. All rights reserved.</p>
 </div>
 {% endblock %}
 
