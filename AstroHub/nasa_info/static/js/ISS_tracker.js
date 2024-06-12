@@ -1,6 +1,9 @@
-// Initialize the map
 const mymap = L.map('map').setView([0, 0], 3);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap); //{x} {y}-->0 {z}-->3
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+}).addTo(mymap);
 
 // Function to fetch ISS current location
 async function getISSLocation() {
@@ -27,10 +30,10 @@ async function updateISSMarker() {
     });
     const marker = L.marker([latitude, longitude], { icon: issIcon }).addTo(mymap);
     marker.bindPopup('<b>International Space Station</b>').openPopup();
-    mymap.setView([latitude, longitude]);
+    mymap.setView([latitude, longitude], 3);
   }
 }
 
 // Update ISS marker every 5 seconds
-updateISSMarker()
+updateISSMarker();
 setInterval(updateISSMarker, 5000);
