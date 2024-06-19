@@ -1,29 +1,35 @@
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("NASA APOD script loaded successfully");
 
-// $.ajax({
-//     url: '/gtapik1246/',
-//     method: 'GET',
-//     success: function (data) {
-//         apiKey = data.api_key;
+    // Lightbox functionality
+    var modal = document.getElementById("myLightbox");
+    var img = document.getElementById("image");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    var span = document.getElementsByClassName("close")[0];
 
-//         // Now that apiKey is initialized, you can use it in the next AJAX request
-//         $.ajax({
-//             url: `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,
-//             beforeSend: function () {
-//                 $("#loading-spinner").show();
-//             },
-//             success: function (data) {
-//                 $("#img").html("<img src=" + data.url + " style='width: 100%; border-radius: 5px;'/>");
-//                 $("#photo-link").attr("href", data.url);
-//                 $("#copyright").text("By " + data.copyright);
-//                 $("#title").text(data.title);
-//                 $("#explanation").text(data.explanation);
-//             },
-//             error: function () {
-//                 $("#output").html("<p>Error loading NASA data. Please try again later or check your internet connection.</p>");
-//             },
-//             complete: function () {
-//                 $("#loading-spinner").hide();
-//             }
-//         });
-//     }
-// });
+    img.onclick = function() {
+        console.log("Image clicked");
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    span.onclick = function() {
+        console.log("Close clicked");
+        modal.style.display = "none";
+    }
+
+    // Smooth scrolling functionality
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Initialize AOS (Animate On Scroll)
+    AOS.init();
+});

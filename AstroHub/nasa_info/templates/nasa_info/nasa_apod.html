@@ -3,6 +3,7 @@
 
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/nasa_apod.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 {% endblock %}
 
 {% block content %}
@@ -11,9 +12,9 @@
             <header class="text-center mb-5">
                 <h1 class="display-4">NASA Picture of the Day</h1>
             </header>
-            <div class="card">
+            <div id="content" class="card">
                 <a id="photo-link" href="{{ img_url }}" target="_blank">
-                    <img id="image" src="{{ img_url }}" class="card-img-top img-fluid rounded" alt="NASA Image" style='width: 100%; border-radius: 5px;'>
+                    <img id="image" src="{{ img_url }}" class="card-img-top img-fluid rounded" alt="{{ title }}" style='width: 100%; border-radius: 5px;'>
                 </a>
                 <div class="card-body">
                     <p id="copyright" class="card-text mb-3 text-muted">By {{ copyright }}</p>
@@ -24,4 +25,18 @@
             </div>
         </div>
     </div>
+
+    <div id="myLightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content" id="img01">
+        <div class="lightbox-caption" id="caption"></div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/nasa_apod.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
 {% endblock %}
