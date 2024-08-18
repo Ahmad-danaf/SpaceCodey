@@ -50,7 +50,7 @@ async def nasa_apod(request):
         return render(request, 'nasa_info/nasa_apod.html', context)
     else:
         error_message = "Error loading NASA data."
-        return render(request, 'nasa_info/error_template.html', {'error_message': error_message})xx
+        return render(request, 'nasa_info/error_template.html', {'error_message': error_message})
 
 
 

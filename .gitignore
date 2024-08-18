@@ -20,3 +20,18 @@ local_settings.py
 # Ignore debug files
 AstroHub/api_response.txt
 AstroHub/forcast_api_response.txt
+
+# Django related
+*.log
+*.pot
+
+# IDE specific
+.vscode/
+.idea/
+
+# Testing and coverage
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.egg-info/
