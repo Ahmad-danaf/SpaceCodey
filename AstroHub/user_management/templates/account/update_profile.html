@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile | CodeStarHub</title>
+    <link rel="stylesheet" href="{% static 'css/update_profile.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body class="bg-dark">
+    <div class="main-container">
+        <div class="profile-container">
+            <div class="profile-header text-center">
+                <h2>Update Your Profile</h2>
+                <p>Personalize your experience on CodeStarHub</p>
+            </div>
+            <form method="post" action="{% url 'account:update_profile' %}" enctype="multipart/form-data" class="profile-form">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+               <div class="form-group">
+    <label for="profile_picture">Profile Picture:</label>
+    <input type="file" name="profile_picture" id="profile_picture" class="form-control-file">
+</div>
+<div class="form-group">
+    <label for="bio">Bio:</label>
+    <textarea name="bio" id="bio" class="form-control" rows="4">{{ form.bio.value|default:user.profile.bio }}</textarea>
+</div>
+<div class="form-group">
+    <label for="favorite_location">Favorite Astrophotography Location:</label>
+    <input type="text" name="favorite_location" id="favorite_location" class="form-control" value="{{ form.favorite_location.value|default:user.profile.favorite_location }}">
+</div>
+<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+
+            </form>
+            <div class="profile-footer text-center">
+                <a href="{% url 'home' %}" class="home-link">🏠 Back to Home</a>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/update_profile.js' %}"></script>
+</body>
+</html>

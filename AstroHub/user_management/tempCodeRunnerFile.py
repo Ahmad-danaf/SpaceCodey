@@ -14,4 +14,4 @@
 # # #     else:
 # # #         profile_form = ProfileForm(instance=profile)
 
-# # #     return render(request, 'user_management/profile.html', {'user': user, 'profile_form': profile_form})
+# # #     return render(request, 'account/ofile.html', {'user': user, 'profile_form': profile_form})

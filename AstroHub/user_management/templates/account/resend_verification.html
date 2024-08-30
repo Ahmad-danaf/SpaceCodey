@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resend Verification</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/resend_verification.css' %}">
+</head>
+<body class="bg-dark">
+    <div class="main-container">
+        <div class="verification-container">
+            {% if messages %}
+                    <div class="message-container">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            <h2>Resend Verification Email</h2>
+            <p>If you have not received the verification email, please enter your email address below to resend it.</p>
+            <form method="post" action="{% url 'account:resend_verification' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email address" required>
+                <button type="submit">Resend Verification</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

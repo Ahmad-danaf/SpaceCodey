@@ -1,24 +1,16 @@
 from django import forms
-from .models import Profile,CustomUser
-from django.contrib.auth.forms import UserCreationForm
-
-
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['bio']
-        #fields = ['profile_picture', 'bio']
-    
-    # Additional fields from the User model
-    first_name = forms.CharField(max_length=30, required=False)
-    last_name = forms.CharField(max_length=30, required=False)
-
-    # If you want to add custom validation or modify form fields, you can do so here:
-    # Example:
-    # bio = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 40}), required=False)
-
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import CustomUser, Profile
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ('email',)
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label='Username or Email')
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_picture', 'bio', 'favorite_location', 'other_preferences']

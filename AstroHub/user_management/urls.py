@@ -5,7 +5,10 @@ app_name='account'
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    path('login/', views.user_login, name='login'),
-    path('logout/', views.user_logout, name='logout'),
-    path('profile/', views.user_profile, name='profile'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    path('profile/', views.update_profile, name='update_profile'),
+    path('resend-verification/', views.resend_verification, name='resend_verification'),
+
 ]
