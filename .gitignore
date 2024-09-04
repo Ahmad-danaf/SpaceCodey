@@ -13,6 +13,8 @@ AstroHub/db.sqlite3
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+*/__pycache__
+**/__pycache__/*
 
 # Ignore local settings
 local_settings.py

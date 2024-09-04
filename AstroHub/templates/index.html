@@ -9,20 +9,27 @@
         font-family: 'Roboto', sans-serif;
     }
     .hero {
-        background-size: cover;
+        background: url('../static/images/pic-3.jpg') center/cover no-repeat;
         height: 60vh;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         text-align: center;
+        position: relative;
     }
-    .hero h1 {
-        font-size: 4em;
-        margin: 0;
-    }
-    .hero p {
-        font-size: 1.5em;
+    .hero::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('../static/images/pic-3.jpg') center/cover no-repeat; 
+        }
+    .hero h1, .hero p {
+        position: relative;
+        z-index: 1;
     }
     .features {
         padding: 2em 0;
@@ -30,7 +37,7 @@
     }
     .feature {
         text-align: center;
-        padding: 1em;
+        padding: 1.5em;
         border-radius: 10px;
         background-color: #333333;
         margin: 10px 0;
@@ -45,9 +52,6 @@
     }
     .feature p {
         color: #d3d3d3;
-    }
-    .navbar-toggle .icon-bar {
-        background-color: #ff9f1c;
     }
     .footer {
         background-color: #1b1b1b;
@@ -67,14 +71,20 @@
         border-radius: 5px;
         cursor: pointer;
     }
+    .welcome-text {
+        position: relative;
+        z-index: 5;
+        padding-bottom: 230px;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="hero">
-    <div>
+    <div class="welcome-text">
         <h1>Welcome to CodeStarHub</h1>
         <p>Your ultimate destination for astrophotography and space exploration.</p>
+        <a href="{% url 'account:login' %}" class="btn btn-outline-light">Explore Now</a>
     </div>
 </div>
 

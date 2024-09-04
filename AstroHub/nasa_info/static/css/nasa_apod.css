@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #1b1b1b;
-    color: white;
+    background-color: #1b1b1b; /* Dark background for the page */
+    color: white; /* Default text color */
 }
 
 .nasa_apod_body {
@@ -10,6 +10,8 @@ body {
 }
 
 .card {
+    background-color: #333; /* Dark background for the card */
+    color: white; /* Ensure text is light enough to be readable */
     border: none;
     border-radius: 10px;
     overflow: hidden;
@@ -32,6 +34,7 @@ body {
 .card-title {
     font-size: 2.5rem;
     margin-bottom: 15px;
+    color: #ff9f1c; /* Highlighted color for titles */
 }
 
 .card-text {
@@ -41,6 +44,7 @@ body {
 
 #attribution {
     margin-top: 10px;
+    color: #d3d3d3;
 }
 
 header {
@@ -62,6 +66,7 @@ header {
     font-size: 1.2em;
     margin-bottom: 15px;
     font-weight: bold;
+    color: white; 
 }
 
 #copyright {
@@ -69,6 +74,7 @@ header {
     font-size: 1em;
     font-weight: normal;
     margin-bottom: 15px;
+    color: #d3d3d3;
 }
 
 #attribution {
@@ -76,6 +82,7 @@ header {
     font-size: 1em;
     font-weight: bold;
     margin-bottom: 15px;
+    color: #d3d3d3;
 }
 
 /* Lightbox styles */

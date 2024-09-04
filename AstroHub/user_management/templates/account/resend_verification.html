@@ -20,6 +20,9 @@
             <h2>Resend Verification Email</h2>
             <p>If you have not received the verification email, please enter your email address below to resend it.</p>
             <form method="post" action="{% url 'account:resend_verification' %}">
+                <div class="profile-footer text-center">
+                    <a href="{% url 'home' %}" class="home-link">🏠 Back to Home</a>
+                </div>
                 {% csrf_token %}
                 <input type="email" name="email" placeholder="Enter your email address" required>
                 <button type="submit">Resend Verification</button>
