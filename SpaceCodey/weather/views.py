@@ -1,10 +1,16 @@
 from django.shortcuts import render
 import requests
 import datetime
-from . import apifile
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env
+load_dotenv()
+# Use the API key
+APIKEY = os.getenv('APIKEY')
 
 def weather_index(request):
-    api_key = apifile.APIKEY
+    api_key = APIKEY
     current_weather_url = 'https://api.openweathermap.org/data/2.5/weather?q={}&appid={}'
     forecast_url = 'https://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}'
 
