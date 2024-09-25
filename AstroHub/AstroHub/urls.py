@@ -25,4 +25,5 @@ urlpatterns = [
     path('',include('events.urls', namespace='events')),
     path('',include('weather.urls', namespace='weather')),
     path('',include('nasa_info.urls', namespace='nasa')),
+    path('content/', include('content.urls')),
 ]

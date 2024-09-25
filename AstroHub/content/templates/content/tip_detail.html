@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extracss %}
+<style>
+    /* Dark background with space-themed elements */
+    body {
+        background-color: #0d0d0d;
+        color: #dcdcdc;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .mycontent {
+        padding-top: 50px;
+    }
+
+    /* tip Card */
+    .tip-detail-card {
+        background-color: #1c1c1c;
+        border: 1px solid #2b2b2b;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+        transition: transform 0.3s ease;
+    }
+
+    .tip-detail-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 12px 24px rgba(255, 255, 255, 0.2);
+    }
+
+    /* tip Title */
+    .tip-title {
+        font-family: 'Pixelify Sans', sans-serif;
+        color: #ff9f1c;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    /* Meta information */
+    .tip-meta {
+        font-size: 0.9rem;
+        color: #ffda79;
+        margin-bottom: 15px;
+    }
+
+    /* tip Content */
+    .tip-content {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #eaeaea;
+    }
+
+    /* Button to go back to tip */
+    .btn-back {
+        background-color: #ff9f1c;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background-color: #ffda79;
+        color: #000;
+    }
+
+    /* Space-themed background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/pia23492-16.jpg') no-repeat center center fixed;
+        background-size: cover;
+        opacity: 0.1;
+        z-index: -1;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+        /* Adjust tip card for smaller screens */
+        .tip-detail-card {
+            padding: 15px;
+        }
+
+        /* Adjust title size on smaller screens */
+        .tip-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Adjust the meta and content for mobile */
+        .tip-meta {
+            font-size: 0.8rem;
+        }
+
+        .tip-content {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        /* Button adjustments */
+        .btn-back {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+        }
+    }
+
+    /* Further scaling for very small screens like phones (width <= 480px) */
+    @media (max-width: 480px) {
+        .tip-title {
+            font-size: 1.8rem;
+        }
+
+        .tip-content {
+            font-size: 0.95rem;
+        }
+
+        .btn-back {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <!-- Back to tip Button -->
+            <a href="{% url 'content:tips_list' %}" class="btn btn-secondary btn-back">
+                ← Back to Tips
+            </a>
+    <div class="container mycontent">
+        <div class="card tip-detail-card mt-5">
+            <div class="card-body">
+                <h1 class="tip-title">{{ tip.title }}</h1>
+                <div class="tip-meta">
+                    <small class="text-muted">Category: {{ tip.category }}</small> |
+                    <small class="text-muted">Published on: {{ tip.created_at }}</small>
+                </div>
+
+                <div class="tip-content mt-4">
+                    <p>{{ tip.content }}</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
+
