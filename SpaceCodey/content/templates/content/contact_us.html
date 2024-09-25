@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block extracss %}
+<style>
+    body {
+        background-color: #0d0d0d;
+        color: #dcdcdc;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .mycontent {
+        padding-top: 50px;
+    }
+
+    /* Contact Card Styling */
+    .contact-card {
+        background-color: #1c1c1c;
+        border: 1px solid #2b2b2b;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .contact-title {
+        font-family: 'Pixelify Sans', sans-serif;
+        color: #ff9f1c;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    /* Form Field Styling */
+    .form-label {
+        color: #ffda79;
+    }
+
+    .form-control {
+        background-color: #1c1c1c;
+        color: #dcdcdc;
+        border: 1px solid #2b2b2b;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .form-control:focus {
+        border-color: #ff9f1c;
+        box-shadow: 0 0 5px rgba(255, 159, 28, 0.5);
+    }
+
+    /* Submit Button Styling */
+    .btn-submit {
+        background-color: #ff9f1c;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: #ffda79;
+        color: #000;
+    }
+
+    /* Space-themed background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/pia23492-16.jpg') no-repeat center center fixed;
+        background-size: cover;
+        opacity: 0.1;
+        z-index: -1;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .contact-title {
+            font-size: 2rem;
+        }
+
+        .form-control {
+            font-size: 0.9rem;
+        }
+
+        .btn-submit {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contact-title {
+            font-size: 1.8rem;
+        }
+
+        .form-control {
+            font-size: 0.85rem;
+        }
+
+        .btn-submit {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container mycontent">
+        <div class="card contact-card mt-5">
+            <div class="card-body">
+                <h1 class="contact-title text-center">Contact Us</h1>
+                {% if messages %}
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <p class="text-center">Have questions or want to reach out? We'd love to hear from you!</p>
+
+                <!-- Contact Form -->
+                <form class="contact-form" action="{% url 'content:contact_us' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

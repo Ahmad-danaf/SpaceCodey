@@ -2,24 +2,26 @@
 *.env
 
 # Ignore the apifile.py file in the weather app
-AstroHub/weather/apifile.py
+SpaceCodey/weather/apifile.py
 
 # Ignore virtual environment
 venv/
 
 # Ignore database
-AstroHub/db.sqlite3
+*/db.sqlite3
 
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+*/__pycache__
+**/__pycache__/*
 
 # Ignore local settings
 local_settings.py
 
 # Ignore debug files
-AstroHub/api_response.txt
-AstroHub/forcast_api_response.txt
+SpaceCodey/api_response.txt
+SpaceCodey/forcast_api_response.txt
 
 # Django related
 *.log

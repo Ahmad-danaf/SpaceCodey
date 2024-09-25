@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/body_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Celestial Body Information</h2>
+        <form id="info-form" method="GET">
+            <label for="body">Body:</label>
+            <select id="body" name="body">
+                <option value="sun" {% if body == 'sun' %}selected{% endif %}>Sun</option>
+                <option value="moon" {% if body == 'moon' %}selected{% endif %}>Moon</option>
+                <option value="mercury" {% if body == 'mercury' %}selected{% endif %}>Mercury</option>
+                <option value="venus" {% if body == 'venus' %}selected{% endif %}>Venus</option>
+                <option value="earth" {% if body == 'earth' %}selected{% endif %}>Earth</option>
+                <option value="mars" {% if body == 'mars' %}selected{% endif %}>Mars</option>
+                <option value="saturn" {% if body == 'saturn' %}selected{% endif %}>Saturn</option>
+                <option value="jupiter" {% if body == 'jupiter' %}selected{% endif %}>Jupiter</option>
+                <option value="uranus" {% if body == 'uranus' %}selected{% endif %}>Uranus</option>
+                <option value="neptune" {% if body == 'neptune' %}selected{% endif %}>Neptune</option>
+                <option value="pluto" {% if body == 'pluto' %}selected{% endif %}>Pluto</option>
+            </select>
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" value="{{ latitude }}">
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" value="{{ longitude }}">
+            <label for="elevation">Elevation:</label>
+            <input type="text" id="elevation" name="elevation" value="{{ elevation }}">
+            <label for="from_date">From Date:</label>
+            <input type="date" id="from_date" name="from_date" value="{{ from_date }}">
+            <label for="to_date">To Date:</label>
+            <input type="date" id="to_date" name="to_date" value="{{ to_date }}">
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" value="{{ time }}">
+            <button type="submit">Get Information</button>
+        </form>
+        <div id="info-sections">
+            <div class="positions-section">
+                <h3>Body Positions</h3>
+                <div class="positions-list">
+                    {% if positions.data.table.rows %}
+                        {% for row in positions.data.table.rows %}
+                            <div class="position-card">
+                                <h4>{{ row.entry.name }}</h4>
+                                {% for position in row.cells %}
+                                    <div class="position-details">
+                                        <p><strong>Date:</strong> {{ position.date }}</p>
+                                        <p><strong>Altitude:</strong> {{ position.position.horizontal.altitude.string }}</p>
+                                        <p><strong>Azimuth:</strong> {{ position.position.horizontal.azimuth.string }}</p>
+                                        <p><strong>Right Ascension:</strong> {{ position.position.equatorial.rightAscension.string }}</p>
+                                        <p><strong>Declination:</strong> {{ position.position.equatorial.declination.string }}</p>
+                                        <p><strong>Constellation:</strong> {{ position.position.constellation.name }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No positions available</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="events-section">
+                <h3>Body Events</h3>
+                <div class="event-list">
+                    {% if events.error %}
+                        <p>{{ events.error }}</p>
+                    {% elif events.data.rows %}
+                        {% for row in events.data.rows %}
+                            <div class="event-card">
+                                <h4>{{ row.body.name }}</h4>
+                                {% for event in row.events %}
+                                    <div class="event-details">
+                                        <p><strong>Type:</strong> {{ event.type }}</p>
+                                        <p><strong>Partial Start:</strong> {{ event.eventHighlights.partialStart.date }}</p>
+                                        <p><strong>Peak:</strong> {{ event.eventHighlights.peak.date }}</p>
+                                        <p><strong>Partial End:</strong> {{ event.eventHighlights.patialEnd.date }}</p>
+                                        <p><strong>Rise:</strong> {{ event.rise }}</p>
+                                        <p><strong>Set:</strong> {{ event.set }}</p>
+                                        <p><strong>Extra Info:</strong> {{ event.extraInfo.obscuration }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No events available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

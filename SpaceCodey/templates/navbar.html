@@ -1,0 +1,35 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+    <div class="container-fluid">
+        <!-- Brand Logo (Acts as Home Link) -->
+        <a class="navbar-brand" href="{% url 'home' %}">SpaceCodey</a>
+        
+        <!-- Navbar Toggler (for smaller screens) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'nasa:nasa_apod' %}">NASA APOD</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'nasa:ISS-tracker' %}">ISS Tracker</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'weather:weather_index' %}">Weather</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'events:optimal_times_form' %}">Optimal Shoot Times</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'events:body_info' %}">Astronomy Tracker</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'content:tips_articles' %}">Tips & Articles</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'content:contact_us' %}">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Support Us</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account:logout' %}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account:update_profile' %}">Profile</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account:register' %}">Signup</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

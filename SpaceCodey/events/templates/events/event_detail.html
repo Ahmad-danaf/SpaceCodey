@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/event_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="event-detail"> 
+            <h1 class="event-title">{{ event.title }}</h2>
+                
+            {% if event.description %}
+                <p class="event-description"><b>Description:</b> {{ event.description }}</p>
+            {% else %}
+                <p>No detailed description is available for this event.</p>
+            {% endif %}
+            
+            <p class="event-categories"><b>Categories:</b> {{ event.categories }}</p>
+            
+            {% if sources %}
+                <p><b>Sources:</b></p>
+                <ul>
+                    {% for source in sources %}
+                        <li><a href="{{ source }}">{{ source }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            
+           
+        </div>
+    </div>
+{% endblock %}

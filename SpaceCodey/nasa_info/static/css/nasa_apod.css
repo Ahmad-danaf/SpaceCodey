@@ -1,0 +1,130 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1b1b1b; /* Dark background for the page */
+    color: white; /* Default text color */
+}
+
+.nasa_apod_body {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #333; /* Dark background for the card */
+    color: white; /* Ensure text is light enough to be readable */
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #ff9f1c; /* Highlighted color for titles */
+}
+
+.card-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+#attribution {
+    margin-top: 10px;
+    color: #d3d3d3;
+}
+
+header {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 25px;
+}
+
+#title {
+    font-size: 1.8em;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+
+#explanation {
+    line-height: 1.5;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: white; 
+}
+
+#copyright {
+    font-style: italic;
+    font-size: 1em;
+    font-weight: normal;
+    margin-bottom: 15px;
+    color: #d3d3d3;
+}
+
+#attribution {
+    font-style: italic;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #d3d3d3;
+}
+
+/* Lightbox styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.lightbox-caption {
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}

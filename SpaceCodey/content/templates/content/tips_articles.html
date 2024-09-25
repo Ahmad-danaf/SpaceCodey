@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extracss %}
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #dcdcdc;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .decision-container {
+            padding: 4rem 0;
+        }
+
+        .card-decision {
+            background-color: #1c1c1c;
+            border: 1px solid #2b2b2b;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease-in-out;
+            color: #fff;
+        }
+
+        .card-decision:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .card-title {
+            font-family: 'Pixelify Sans', sans-serif;
+            color: #ff9f1c;
+        }
+
+        /* Center the cards vertically */
+        .row-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Space-themed background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('https://images-assets.nasa.gov/image/iss071e418742/iss071e418742~medium.jpg') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container decision-container">
+    <h1 class="text-center mb-5" style="font-family: 'Pixelify Sans'; color: #ff9f1c;">Explore Tips & Articles</h1>
+
+    <div class="row row-center">
+        <!-- Card for Astrophotography Tips -->
+        <div class="col-md-5">
+            <div class="card card-decision text-center mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Astrophotography Tips</h2>
+                    <p class="card-text">Discover helpful tips to improve your astrophotography skills.</p>
+                    <a href="{% url 'content:tips_list' %}" class="btn btn-primary">View Tips</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Astronomy Articles -->
+        <div class="col-md-5">
+            <div class="card card-decision text-center mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Astronomy Articles</h2>
+                    <p class="card-text">Explore articles on astronomy to expand your knowledge.</p>
+                    <a href="{% url 'content:articles_list' %}" class="btn btn-primary">View Articles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

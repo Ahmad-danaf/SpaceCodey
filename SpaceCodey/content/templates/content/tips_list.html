@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extracss %}
+<style>
+    body {
+        background: #0d0d0d;
+        color: #dcdcdc;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .mycontent {
+        padding: 2rem 0;
+    }
+
+    /* Card Styles */
+    .tip-card, .tip-detail-card {
+        background-color: #1c1c1c;
+        border: 1px solid #2b2b2b;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .tip-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .tip-title {
+        color: #ff9f1c;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .tip-title:hover {
+        color: #ffda79;
+        text-decoration: underline;
+    }
+
+    /* Typography */
+    h2, h3 {
+        font-family: 'Pixelify Sans', sans-serif;
+    }
+
+    /* Space-themed background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url('https://images-assets.nasa.gov/image/iss071e418742/iss071e418742~medium.jpg') no-repeat center center fixed;
+        background-size: cover;
+        opacity: 0.1;
+        z-index: -1;
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .tip-card, .tip-detail-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% for tip in tips %}
+    <div class="card mb-4 tip-card">
+        <div class="card-body">
+            <h2 class="card-title">
+                <a href="{% url 'content:tip_detail' tip.pk %}" class="tip-title">{{ tip.title }}</a>
+            </h2>
+            <p class="card-text">{{ tip.content|truncatewords:20 }}</p>
+            <small class="text-muted">Published on: {{ tip.created_at }}</small>
+        </div>
+    </div>
+{% endfor %}
+
+<!-- tip Detail View -->
+<div class="card mt-4 tip-detail-card">
+    <div class="card-body">
+        <h2>{{ tip.title }}</h2>
+        <p>{{ tip.content }}</p>
+        <small class="text-muted">Published on: {{ tip.created_at }}</small>
+    </div>
+</div>
+<script>
+    // Example of smooth scrolling effect for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+{% endblock %}

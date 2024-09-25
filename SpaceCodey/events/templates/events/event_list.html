@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/event_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% if events %}
+    <div class="container">
+        <h2>NASA Events</h2>
+        <div class="event-list">
+            {% for event in events %}
+                <div class="event-card">
+                    <h3><a href="{% url 'events:event_detail' event.id %}">{{ event.title }}</a></h3>
+                    <p>{{ event.description }}</p>
+                    <p>{{ event.categories }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+        <h1>No events available :(</h1>
+    {% endif %}
+{% endblock %}

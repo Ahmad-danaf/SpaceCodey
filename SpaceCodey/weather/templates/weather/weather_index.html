@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_weather.css' %}">
+{% endblock %}
+{% block content %}
+    <div id="weather_content">
+        <form method="post" id="weather-form">
+            {% csrf_token %}
+            <input type="text" name="city1" placeholder="Enter city 1">
+            <input type="text" name="city2" placeholder="Enter city 2">
+            <button type="submit">Compare Weather</button>
+        </form>
+        
+        <div class="comparison-container" id="weather-comparison">
+            {% if error_message1 %}
+            <div class="error-message">
+                {{ error_message1 }}
+            </div>
+            {% else %}
+                {% if weather_data1 %}
+                <div class="city-container">
+                    {% include 'weather/city_weather.html' with weather_data=weather_data1 daily_forecasts=daily_forecasts1 %}
+                </div>
+                {% endif %}
+            {% endif %}
+            
+            {% if error_message2 %}
+            <div class="error-message">
+                {{ error_message2 }}
+            </div>
+            {% else %}
+                {% if weather_data2 %}
+                <div class="city-container">
+                    {% include 'weather/city_weather.html' with weather_data=weather_data2 daily_forecasts=daily_forecasts2 %}
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

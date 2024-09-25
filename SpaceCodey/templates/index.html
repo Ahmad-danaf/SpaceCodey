@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extracss %}
+<style>
+    body {
+        background-color: #1b1b1b;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+    }
+    .hero {
+        background: url('../static/images/pic-3.jpg') center/cover no-repeat;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+    .hero::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('../static/images/pic-3.jpg') center/cover no-repeat; 
+        }
+    .hero h1, .hero p {
+        position: relative;
+        z-index: 1;
+    }
+    .features {
+        padding: 2em 0;
+        background-color: #262626;
+    }
+    .feature {
+        text-align: center;
+        padding: 1.5em;
+        border-radius: 10px;
+        background-color: #333333;
+        margin: 10px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s;
+    }
+    .feature:hover {
+        transform: scale(1.05);
+    }
+    .feature h2 {
+        color: #ff9f1c;
+    }
+    .feature p {
+        color: #d3d3d3;
+    }
+    .footer {
+        background-color: #1b1b1b;
+        color: #d3d3d3;
+        text-align: center;
+        padding: 1em 0;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        background-color: #ff9f1c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .welcome-text {
+        position: relative;
+        z-index: 5;
+        padding-bottom: 230px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="welcome-text">
+        <h1>Welcome to SpaceCodey</h1>
+        <p>Your ultimate destination for astrophotography and space exploration.</p>
+        <a href="{% url 'account:login' %}" class="btn btn-outline-light">Explore Now</a>
+    </div>
+</div>
+
+<div class="container features">
+    <div class="row">
+        <div class="col-md-4 feature">
+            <h2>NASA APOD</h2>
+            <p>Explore the astronomy picture of the day.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>ISS Tracker</h2>
+            <p>Track the International Space Station in real-time.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Weather</h2>
+            <p>Get weather updates and compare forecasts for two cities.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 feature">
+            <h2>Optimal Shoot Times</h2>
+            <p>Calculate the best times for astrophotography.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Astronomy Tracker</h2>
+            <p>Track celestial body positions and stay updated with the latest astronomy events for your selected bodies.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Tips & Articles</h2>
+            <p>Read tips and articles about astronomy and astrophotography.</p>
+        </div>
+    </div>
+</div>
+
+<button class="scroll-to-top">Top</button>
+
+<div class="footer">
+    <p>&copy; 2024 SpaceCodey. All rights reserved.</p>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+    $(document).ready(function() {
+        // Smooth scrolling for internal links
+        $('a[href*="#"]:not([href="#"])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+
+        // Scroll to top button
+        var scrollTopButton = $('.scroll-to-top');
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 100) {
+                scrollTopButton.fadeIn();
+            } else {
+                scrollTopButton.fadeOut();
+            }
+        });
+
+        scrollTopButton.click(function() {
+            $('html, body').animate({scrollTop: 0}, 1000);
+            return false;
+        });
+
+        // Navbar change on scroll
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('#navbar').addClass('scrolled');
+            } else {
+                $('#navbar').removeClass('scrolled');
+            }
+        });
+    });
+</script>
+{% endblock %}
