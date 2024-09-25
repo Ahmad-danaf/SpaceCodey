@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Tip, Article
-
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 # Create your views here.
 
@@ -26,3 +28,28 @@ def article_detail(request, pk):
 
 def tips_articles(request):
     return render(request, 'content/tips_articles.html')
+
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        full_message = f"Message from {name} ({email}):\n\n{message}"
+
+
+        send_mail(
+            subject,
+            full_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.CONTACT_EMAIL],
+        )
+
+        # Show success message
+        messages.success(request, "Your message has been sent successfully!")
+        return render(request, 'content/contact_us.html')
+
+    return render(request, 'content/contact_us.html')

@@ -158,5 +158,6 @@ EMAIL_USE_TLS = True  # Use TLS if your provider recommends it
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = 'CodeAstroHub-no-replay@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+CONTACT_EMAIL = EMAIL_HOST_USER
 
