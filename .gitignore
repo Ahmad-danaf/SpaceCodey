@@ -37,3 +37,6 @@ nosetests.xml
 coverage.xml
 *.cover
 *.egg-info/
+
+#static files
+*/staticfiles
