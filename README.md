@@ -1,1 +1,1 @@
-# SpaceCodey | Python(Django) &  Azure
+# SpaceCodey | Python[Django] &  Azure
