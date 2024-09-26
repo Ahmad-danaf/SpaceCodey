@@ -1,0 +1,1 @@
+web: gunicorn SpaceCodey.wsgi --log-file -
