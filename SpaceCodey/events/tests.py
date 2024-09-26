@@ -2,12 +2,10 @@ from datetime import datetime, timedelta
 import requests
 import base64
 import os
-from dotenv import load_dotenv
 from utils import best_astrophotography_times
 
 def test_fetch_body_events():
     def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, time):
-        load_dotenv()
         url = f"https://api.astronomyapi.com/api/v2/bodies/events/{body}"
         
         # Create the Basic Auth string

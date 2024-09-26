@@ -3,7 +3,6 @@ from datetime import datetime, timedelta, timezone
 import requests
 import base64
 import os
-from dotenv import load_dotenv
 import pytz
 from timezonefinder import TimezoneFinder
 
@@ -118,7 +117,6 @@ def calculate_optimal_shooting_times(lat, lon, date, duration_hours):
 
 
 def get_auth_string():
-    load_dotenv()
     userpass = f"{os.getenv('ASTRONOMY_API_ID')}:{os.getenv('ASTRONOMY_API_SECRET')}"
     return base64.b64encode(userpass.encode()).decode()
 

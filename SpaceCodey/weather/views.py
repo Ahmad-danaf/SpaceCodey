@@ -1,11 +1,8 @@
 from django.shortcuts import render
 import requests
 import datetime
-from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env
-load_dotenv()
 # Use the API key
 APIKEY = os.getenv('APIKEY')
 

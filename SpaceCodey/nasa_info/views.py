@@ -1,13 +1,11 @@
 from django.views.generic import TemplateView
 from django.shortcuts import render
 from django.core.cache import cache
-from dotenv import load_dotenv
 import aiohttp
 from asgiref.sync import sync_to_async
 import os
 
-# Load environment variables from .env
-load_dotenv()
+
 # Use the API key
 NASA_API_KEY = os.getenv('NASA_API_KEY')
 

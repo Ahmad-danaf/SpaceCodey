@@ -12,25 +12,23 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
-# Initialize environment variables
-load_dotenv()
+# Load environment variables from a .env file (for development)
+if os.getenv('WEBSITE_HOSTNAME') is None:  # Detect if running locally
+    from dotenv import load_dotenv
+    load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1t%0)%fa8trjpc0pzwca-!#s)gcnwk*7#8+e0v$iqvielkat_z'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')  # default key for development
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['SpaceCodeyazurewebsites.net', 'localhost']
 
@@ -139,7 +137,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'nasa_info\static'),
     ]
 
 
