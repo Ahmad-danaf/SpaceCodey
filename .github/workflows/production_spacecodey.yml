@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python app to Azure Web App - SpaceCodey
 
 on:
@@ -15,33 +11,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v4
 
+      # Step 2: Set up Python environment
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Create and start virtual environment
+      # Step 3: Create and start virtual environment
+      - name: Create and activate virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
 
+      # Step 4: Install dependencies
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
 
+      # Step 5: Collect static files (use the correct path to manage.py)
       - name: Collect static files
-        run: python SpaceCodey/manage.py collectstatic --noinput
+        run: |
+          source venv/bin/activate
+          python SpaceCodey/manage.py collectstatic --noinput
 
+      # Step 6: Apply database migrations
       - name: Run migrations
-        run: python SpaceCodey/manage.py migrate
+        run: |
+          source venv/bin/activate
+          python SpaceCodey/manage.py migrate
 
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-
+      # Step 7: Zip the deployment files
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
-      - name: Upload artifact for deployment jobs
+      # Step 8: Upload the artifact for deployment jobs
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
@@ -56,18 +64,20 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
+      # Step 9: Download the built artifact from the build job
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: python-app
 
+      # Step 10: Unzip the artifact for deployment
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
+      # Step 11: Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -75,10 +85,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BFE9ACDF356E450C8418ED692B18C051 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B2194B7E3E944DDBB80A46B31BC9B6D9 }}
 
-      - name: 'Deploy to Azure Web App'
+      # Step 12: Deploy the application to Azure Web App
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'SpaceCodey'
           slot-name: 'Production'
-          
