@@ -36,17 +36,17 @@ jobs:
       - name: Collect static files
         run: |
           source venv/bin/activate
-          python manage.py collectstatic --noinput
+          python SpaceCodey/manage.py collectstatic --noinput
 
       # Step 6: Apply database migrations
       - name: Run migrations
         run: |
           source venv/bin/activate
-          python manage.py migrate
+          python SpaceCodey/manage.py migrate
 
       # Step 7: Zip the deployment files
       - name: Zip artifact for deployment
-        run: zip release.zip SpaceCodey -r
+        run: zip release.zip SpaceCodey/* -r
 
 
       # Step 8: Upload the artifact for deployment jobs
