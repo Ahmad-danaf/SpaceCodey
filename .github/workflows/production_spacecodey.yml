@@ -46,7 +46,8 @@ jobs:
 
       # Step 7: Zip the deployment files
       - name: Zip artifact for deployment
-        run: zip release.zip SpaceCodey/* -r
+        run: zip release.zip SpaceCodey -r
+
 
       # Step 8: Upload the artifact for deployment jobs
       - name: Upload artifact for deployment
