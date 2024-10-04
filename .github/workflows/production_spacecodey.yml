@@ -71,12 +71,22 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'SpaceCodey'
+          package: release.zip  # Specify the package file
           # Remove or update slot-name based on your configuration
 
       # Optional: Run migrations (for Django apps)
       - name: Run database migrations
-        run: python manage.py migrate
+        run: |
+          python manage.py migrate
 
       # Optional: Collect static files (for Django apps)
       - name: Collect static files
-        run: python manage.py collectstatic --noinput
+        run: |
+          python manage.py collectstatic --noinput
+
+      # Optional: Restart the app service after deployment
+      - name: Restart Azure Web App
+        uses: azure/appservice-actions@v0.1
+        with:
+          action: 'restart'
+          app-name: 'SpaceCodey'
