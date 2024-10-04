@@ -18,8 +18,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
-# Load environment variables from a .env file (for development)
-if os.getenv('WEBSITE_HOSTNAME') is None:  # Detect if running locally
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+
+if ENVIRONMENT == 'development':
+    # Only load dotenv in non-production environments
     from dotenv import load_dotenv
     load_dotenv()
 
@@ -30,7 +32,7 @@ if os.getenv('WEBSITE_HOSTNAME') is None:  # Detect if running locally
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')  # default key for development
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['SpaceCodeyazurewebsites.net', 'localhost']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -92,6 +94,11 @@ DATABASES = {
     }
 }
 
+CSRF_COOKIE_SECURE = ENVIRONMENT == 'production'
+SESSION_COOKIE_SECURE = ENVIRONMENT == 'production'
+SECURE_SSL_REDIRECT = ENVIRONMENT == 'production'
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -136,7 +143,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static')
     ]
 
 
@@ -160,4 +167,3 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_EMAIL = EMAIL_HOST_USER
-
