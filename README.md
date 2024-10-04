@@ -1,1 +1,1 @@
-# SpaceCodey | Python[Django] &  Azure | Production V 1.0.0
+# SpaceCodey | Python[Django] &  Azure | Production
