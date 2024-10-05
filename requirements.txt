@@ -76,5 +76,4 @@ Werkzeug==2.3.8
 wsproto==1.2.0
 yarl==1.9.2
 gunicorn==23.0.0
-whitenoise==6.7.0
 python-decouple==3.8
