@@ -20,10 +20,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
-if ENVIRONMENT == 'development':
-    # Only load dotenv in non-production environments
-    from dotenv import load_dotenv
-    load_dotenv()
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
