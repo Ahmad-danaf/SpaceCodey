@@ -73,7 +73,7 @@
             <h2 class="card-title">
                 <a href="{% url 'content:article_detail' article.pk %}" class="article-title">{{ article.title }}</a>
             </h2>
-            <p class="card-text">{{ article.content|truncatewords:20 }}</p>
+            <p class="card-text">{{ article.content|truncatewords:20|safe }}</p>
             <small class="text-muted">Published on: {{ article.created_at }}</small>
         </div>
     </div>

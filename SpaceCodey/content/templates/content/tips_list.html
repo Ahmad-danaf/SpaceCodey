@@ -73,7 +73,7 @@
             <h2 class="card-title">
                 <a href="{% url 'content:tip_detail' tip.pk %}" class="tip-title">{{ tip.title }}</a>
             </h2>
-            <p class="card-text">{{ tip.content|truncatewords:20 }}</p>
+            <p class="card-text">{{ tip.content|truncatewords:20|safe }}</p>
             <small class="text-muted">Published on: {{ tip.created_at }}</small>
         </div>
     </div>
