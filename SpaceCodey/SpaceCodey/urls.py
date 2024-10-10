@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path,include
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +28,9 @@ urlpatterns = [
     path('',include('weather.urls', namespace='weather')),
     path('',include('nasa_info.urls', namespace='nasa')),
     path('content/', include('content.urls')),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
+
+# serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

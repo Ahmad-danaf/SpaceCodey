@@ -77,3 +77,4 @@ wsproto==1.2.0
 yarl==1.9.2
 gunicorn==23.0.0
 python-decouple==3.8
+django-ckeditor-5==0.2.13
