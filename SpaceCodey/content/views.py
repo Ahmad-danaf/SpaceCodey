@@ -3,6 +3,7 @@ from .models import Tip, Article
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from django.views.generic import TemplateView
 
 # Create your views here.
 
@@ -53,3 +54,6 @@ def contact_us(request):
         return render(request, 'content/contact_us.html')
 
     return render(request, 'content/contact_us.html')
+
+class SupportMeView(TemplateView):
+    template_name = 'content/support_me.html'

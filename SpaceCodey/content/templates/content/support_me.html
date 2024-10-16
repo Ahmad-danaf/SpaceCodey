@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/support_me.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container mycontent">
+        <div class="card support-card mt-5 animate-fade-in">
+            <div class="card-body text-center">
+                <h1 class="support-title animate-fade-in-delay">Support My Mission to Explore the Cosmos</h1>
+                <p class="support-text animate-fade-in-delay2">Your support helps keep this project alive, enabling me to continue sharing amazing astrophotography tips, real-time space data, and more. Every coffee helps power the development of new features and inspires the community to reach for the stars.</p>
+                
+                <!-- Support Message -->
+                <div class="support-message animate-fade-in-delay3">
+                    <p>🚀 Even a small donation makes a big difference! Your support helps fuel this journey into the universe, one coffee at a time. Together, we can continue exploring the cosmos and bringing the wonders of space closer to home. ☕️✨</p>
+                </div>
+
+                <!-- Future Roadmap Section -->
+                <div class="roadmap mt-5">
+                    <h2 class="roadmap-title animate-fade-in-delay3">What's Next?</h2>
+                    <ul class="roadmap-list animate-fade-in-delay4">
+                        <li>
+                            <i class="fas fa-robot"></i>
+                            <strong>AI-Based Image Analysis</strong>: Enhancing astrophotography with AI to identify celestial objects and optimize image settings.
+                        </li>
+                        <li>
+                            <i class="fas fa-mobile-alt"></i>
+                            <strong>Mobile Optimization</strong>: Improving the user experience on mobile devices with better layouts and performance.
+                        </li>
+                        <li>
+                            <i class="fas fa-calendar-alt"></i>
+                            <strong>Additional Celestial Events</strong>: Expand the celestial event tracking feature with detailed data and notifications.
+                        </li>
+                        <li>
+                            <i class="fas fa-user-cog"></i>
+                            <strong>User Customization</strong>: Enable users to customize their dashboard with preferred features and data.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Buy Me a Coffee Button -->
+                <div class="mt-4">
+                    <p class="animate-fade-in-delay4">Help make these features a reality by supporting the project!</p>
+                    <a href="https://buymeacoffee.com/spacecodey" target="_blank" class="animate-bounce">
+                        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px; width: 217px;">
+                    </a>
+                </div>
+
+                <!-- Thank You Note -->
+                <p class="thank-you-note animate-fade-in-delay5 mt-4">Thank you for your support! Your contribution helps keep this project going and makes it possible to share the wonders of the universe with everyone.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

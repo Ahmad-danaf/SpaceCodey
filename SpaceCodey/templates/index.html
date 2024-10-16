@@ -26,10 +26,18 @@
         right: 0;
         bottom: 0;
         background-image: url('../static/images/pic-3.jpg') center/cover no-repeat; 
-        }
+    }
     .hero h1, .hero p {
         position: relative;
         z-index: 1;
+    }
+    .welcome-text {
+        position: relative;
+        z-index: 5;
+        padding-bottom: 230px;
+    }
+    .welcome-text .btn {
+        margin: 0 10px;
     }
     .features {
         padding: 2em 0;
@@ -71,10 +79,9 @@
         border-radius: 5px;
         cursor: pointer;
     }
-    .welcome-text {
-        position: relative;
-        z-index: 5;
-        padding-bottom: 230px;
+    .small-text {
+        font-size: 0.9rem;
+        color: white;
     }
 </style>
 {% endblock %}
@@ -85,6 +92,9 @@
         <h1>Welcome to SpaceCodey</h1>
         <p>Your ultimate destination for astrophotography and space exploration.</p>
         <a href="{% url 'account:login' %}" class="btn btn-outline-light">Explore Now</a>
+        <a href="{% url 'content:support_me' %}" class="btn btn-warning">Support Us</a>
+        <!-- Persuasive text below the buttons -->
+        <p class="mt-3 small-text" style="color: white;">🌌 Help us bring the wonders of the universe to everyone. Your support fuels our mission to make space exploration accessible for all. 🚀✨</p>
     </div>
 </div>
 
