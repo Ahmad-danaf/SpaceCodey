@@ -17,6 +17,16 @@
                 <h2>Update Your Profile</h2>
                 <p>Personalize your experience on SpaceCodey</p>
             </div>
+
+            <!-- Display Current Profile Picture or Placeholder -->
+            <div class="text-center mb-4">
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture img-fluid rounded-circle" width="150" height="150">
+                {% else %}
+                    <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="profile-picture img-fluid rounded-circle" width="150" height="150">
+                {% endif %}
+            </div>
+
             <form method="post" action="{% url 'account:update_profile' %}" enctype="multipart/form-data" class="profile-form">
                 {% csrf_token %}
                 {% if form.errors %}
@@ -31,22 +41,29 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-               <div class="form-group">
-    <label for="profile_picture">Profile Picture:</label>
-    <input type="file" name="profile_picture" id="profile_picture" class="form-control-file">
-</div>
-<div class="form-group">
-    <label for="bio">Bio:</label>
-    <textarea name="bio" id="bio" class="form-control" rows="4">{{ form.bio.value|default:user.profile.bio }}</textarea>
-</div>
-<div class="form-group">
-    <label for="favorite_location">Favorite Astrophotography Location:</label>
-    <input type="text" name="favorite_location" id="favorite_location" class="form-control" value="{{ form.favorite_location.value|default:user.profile.favorite_location }}">
-</div>
-<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                
+                <!-- Upload Profile Picture -->
+                <div class="form-group">
+                    <label for="profile_picture">Change Profile Picture:</label>
+                    <input type="file" name="profile_picture" id="profile_picture" class="form-control-file">
+                </div>
+                
+                <!-- Bio Section -->
+                <div class="form-group">
+                    <label for="bio">Bio:</label>
+                    <textarea name="bio" id="bio" class="form-control" rows="4">{{ form.bio.value|default:user.profile.bio }}</textarea>
+                </div>
 
+                <!-- Favorite Astrophotography Location -->
+                <div class="form-group">
+                    <label for="favorite_location">Favorite Astrophotography Location:</label>
+                    <input type="text" name="favorite_location" id="favorite_location" class="form-control" value="{{ form.favorite_location.value|default:user.profile.favorite_location }}">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
             </form>
-            <div class="profile-footer text-center">
+
+            <div class="profile-footer text-center mt-4">
                 <a href="{% url 'home' %}" class="home-link">🏠 Back to Home</a>
             </div>
         </div>
