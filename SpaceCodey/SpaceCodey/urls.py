@@ -29,6 +29,8 @@ urlpatterns = [
     path('',include('nasa_info.urls', namespace='nasa')),
     path('content/', include('content.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path('api/check-auth/', views.check_auth, name='check_auth'),
+
 ]
 
 # serve media files during development

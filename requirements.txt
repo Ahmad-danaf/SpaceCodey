@@ -78,3 +78,4 @@ yarl==1.9.2
 gunicorn==23.0.0
 python-decouple==3.8
 django-ckeditor-5==0.2.13
+django-cors-headers==4.6.0

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_ckeditor_5',
+    'corsheaders',
     'events',
     'user_management',
     'weather',
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_ratelimit.middleware.RatelimitMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'SpaceCodey.urls'
@@ -97,7 +99,12 @@ CSRF_COOKIE_SECURE = ENVIRONMENT == 'production'
 SESSION_COOKIE_SECURE = ENVIRONMENT == 'production'
 SECURE_SSL_REDIRECT = ENVIRONMENT == 'production'
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # For local React frontend
+    "https://spacecodey.com", # Production frontend
+]
+# Allow cookies for authentication
+CORS_ALLOW_CREDENTIALS = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
