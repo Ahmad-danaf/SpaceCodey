@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_ratelimit.middleware.RatelimitMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'SpaceCodey.urls'
@@ -98,9 +98,17 @@ DATABASES = {
 CSRF_COOKIE_SECURE = ENVIRONMENT == 'production'
 SESSION_COOKIE_SECURE = ENVIRONMENT == 'production'
 SECURE_SSL_REDIRECT = ENVIRONMENT == 'production'
+SESSION_COOKIE_HTTPONLY = ENVIRONMENT == 'production'
+CSRF_COOKIE_HTTPONLY =False
+CSRF_COOKIE_SAMESITE ='Lax'
+SESSION_COOKIE_SAMESITE='Lax'
+
+
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # For local React frontend
+    "http://localhost:8000",  # For local Django frontend
     "https://spacecodey.com", # Production frontend
 ]
 # Allow cookies for authentication
