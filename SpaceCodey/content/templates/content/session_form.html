@@ -2,22 +2,45 @@
 
 {% block content %}
 <div class="container">
-    <h1>{{ session.date|default:"Create New Session" }}</h1>
+    <h1>{{ session.date|default:"Add New Session" }}</h1>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="datetime-local" name="date" id="date" class="form-control"
-                   value="{{ session.date|date:'Y-m-d\TH:i' }}" required>
+            <input
+                type="datetime-local"
+                name="date"
+                id="date"
+                class="form-control"
+                value="{{ session.date|date:'Y-m-d\TH:i' }}"
+                required
+            >
         </div>
         <div class="mb-3">
             <label for="location" class="form-label">Location</label>
-            <input type="text" name="location" id="location" class="form-control"
-                   value="{{ session.location }}" required>
+            <input
+                type="text"
+                name="location"
+                id="location"
+                class="form-control"
+                value="{{ session.location }}"
+                required
+            >
         </div>
         <div class="mb-3">
             <label for="notes" class="form-label">Notes</label>
-            <textarea name="notes" id="notes" class="form-control" rows="4">{{ session.notes }}</textarea>
+            <textarea
+                name="notes"
+                id="notes"
+                class="form-control"
+            >{{ session.notes }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-select" required>
+                <option value="upcoming" {% if session.status == "upcoming" %}selected{% endif %}>Upcoming</option>
+                <option value="completed" {% if session.status == "completed" %}selected{% endif %}>Completed</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-success">Save</button>
     </form>

@@ -4,8 +4,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .utils.sessionhub import sessionhub_request
+import os
 
-# Create your views here.
 
 def tips_list(request):
     tips = Tip.objects.all().order_by('-created_at')
@@ -59,107 +62,62 @@ class SupportMeView(TemplateView):
     template_name = 'content/support_me.html'
 
 
-import requests
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
-
 # Base URL of the SessionHub API
-SESSIONHUB_API_BASE_URL = "http://localhost:5000/api/sessions"
+SESSIONHUB_API_BASE_URL = os.getenv('SESSIONHUB_BASE_URL', 'http://localhost:5000/api/sessions')
 
 @login_required
 def session_list(request):
-    """Fetch and display all sessions for the logged-in user."""
-    try:
-        response = requests.get(
-            SESSIONHUB_API_BASE_URL,
-            cookies=request.COOKIES,  # Pass Django cookies for authentication
-        )
-        if response.status_code == 200:
-            sessions = response.json()
-            # Convert `_id` to `id` for Django template compatibility
-            for session in sessions:
-                session['id'] = session.pop('_id')
-        else:
-            sessions = []
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching sessions: {e}")
-        sessions = []
-
+    user_id = request.user.id
+    sessions = sessionhub_request('GET', data={'userId': user_id})
+    
+    if sessions:
+        for session in sessions:
+            session['id'] = session.pop('_id', None)  # Rename `_id` to `id` if it exists
+    
     return render(request, 'content/session_list.html', {'sessions': sessions})
 
 
 @login_required
 def add_session(request):
-    """Add a new session."""
     if request.method == 'POST':
         session_data = {
-            'date': request.POST.get('date'),
-            'location': request.POST.get('location'),
-            'notes': request.POST.get('notes'),
-            'sessionType': 'log',  # Default value
-            'status': 'upcoming',  # Default value
+            'userId': request.user.id,
+            'date': request.POST['date'],
+            'location': request.POST['location'],
+            'notes': request.POST['notes'],
+            'sessionType': 'log',
+            'status': 'upcoming',
         }
-        try:
-            response = requests.post(
-                SESSIONHUB_API_BASE_URL,
-                json=session_data,
-                cookies=request.COOKIES,  # Pass Django cookies for authentication
-                headers={'X-CSRFToken': request.COOKIES.get('csrftoken')},
-            )
-            if response.status_code == 201:
-                return redirect('content:session_list')
-        except requests.exceptions.RequestException as e:
-            print(f"Error adding session: {e}")
-
+        sessionhub_request('POST', data=session_data)
+        return redirect('content:session_list')
     return render(request, 'content/session_form.html')
 
 @login_required
 def delete_session(request, session_id):
-    """Delete a session."""
-    try:
-        response = requests.delete(
-            f"{SESSIONHUB_API_BASE_URL}/{session_id}",
-            cookies=request.COOKIES,  # Pass Django cookies for authentication
-        )
-        if response.status_code == 200:
-            return redirect('content:session_list')
-    except requests.exceptions.RequestException as e:
-        print(f"Error deleting session: {e}")
-
-    return redirect('content:session_list')
+    response = sessionhub_request('DELETE', f'{session_id}', data={'userId': request.user.id})
+    if response and response.get('message') == 'Session deleted successfully':
+        return redirect('content:session_list')
+    return redirect('content:session_list')  
 
 @login_required
 def edit_session(request, session_id):
     """Edit an existing session."""
     if request.method == 'POST':
+        # Prepare updated session data from the form
         updated_data = {
-            'date': request.POST.get('date'),
-            'location': request.POST.get('location'),
-            'notes': request.POST.get('notes'),
-            'status': request.POST.get('status'),
+            'userId': request.user.id,
+            'date': request.POST['date'],
+            'location': request.POST['location'],
+            'notes': request.POST['notes'],
+            'status': request.POST['status'],
         }
-        try:
-            response = requests.put(
-                f"{SESSIONHUB_API_BASE_URL}/{session_id}",
-                json=updated_data,
-                cookies=request.COOKIES,  # Pass Django cookies for authentication
-                headers={'X-CSRFToken': request.COOKIES.get('csrftoken')},
-            )
-            if response.status_code == 200:
-                return redirect('content:session_list')
-        except requests.exceptions.RequestException as e:
-            print(f"Error updating session: {e}")
-
-    # Fetch existing session data to prepopulate the form
-    try:
-        response = requests.get(
-            f"{SESSIONHUB_API_BASE_URL}/{session_id}",
-            cookies=request.COOKIES,  # Pass Django cookies for authentication
-        )
-        session = response.json() if response.status_code == 200 else None
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching session: {e}")
-        session = None
-
+        # Send the update request to SessionHub
+        response=sessionhub_request('PUT', f'{session_id}', data=updated_data)
+        if response:
+            return redirect('content:session_list')
+    # Fetch session data from SessionHub for pre-filling the form
+    session = sessionhub_request('GET', f'{session_id}')
+    if session:
+            session['id'] = session.pop('_id', None)  # Rename `_id` to `id` if it exists
     return render(request, 'content/session_form.html', {'session': session})
+
