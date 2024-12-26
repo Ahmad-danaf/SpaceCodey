@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Your Sessions</h1>
+    <a href="{% url 'content:add_session' %}" class="btn btn-primary mb-3">Add New Session</a>
+    
+    {% if sessions %}
+    <ul class="list-group">
+        {% for session in sessions %}
+        <li class="list-group-item">
+            <strong>{{ session.date }}</strong>: {{ session.location }} ({{ session.status }})
+            <a href="{% url 'content:edit_session' session.id %}" class="btn btn-sm btn-warning float-end">Edit</a>
+            <form method="post" action="{% url 'content:delete_session' session.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </li>        
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted">No sessions found. Start by adding a new session!</p>
+    {% endif %}
+</div>
+{% endblock %}

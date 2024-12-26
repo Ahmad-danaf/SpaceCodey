@@ -10,5 +10,11 @@ urlpatterns = [
     path('tipsAndArticles/', views.tips_articles, name='tips_articles'),
     path('contactUs/', views.contact_us, name='contact_us'),
     path('support/', views.SupportMeView.as_view(), name='support_me'),
+    
+    #sessions:
+    path('sessions/', views.session_list, name='session_list'),
+    path('sessions/add/', views.add_session, name='add_session'),
+    path('sessions/edit/<str:session_id>/', views.edit_session, name='edit_session'),
+    path('sessions/delete/<str:session_id>/', views.delete_session, name='delete_session'),
 
 ]

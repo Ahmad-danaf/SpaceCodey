@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -108,6 +108,7 @@ SESSION_COOKIE_SAMESITE='Lax'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # For local React frontend
+    "http://localhost:5000",  # For local Express backend
     "http://localhost:8000",  # For local Django frontend
     "https://spacecodey.com", # Production frontend
 ]
