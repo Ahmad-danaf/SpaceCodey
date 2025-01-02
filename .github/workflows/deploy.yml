@@ -29,12 +29,32 @@ jobs:
           -H "Content-Type: application/json" \
           --data '{"executable": "/bin/bash"}' > console.json
 
-        # Wait for the console to initialize
-        sleep 45
-
-        # Extract console ID and prepare the execute URL
+        # Extract console ID
         CONSOLE_ID=$(cat console.json | jq -r '.id')
         EXECUTE_URL="https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/consoles/${CONSOLE_ID}/send_input/"
+        STATUS_URL="https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/consoles/${CONSOLE_ID}/"
+
+        # Wait for the console to initialize
+        echo "Waiting for console to be ready..."
+        MAX_RETRIES=10
+        RETRY_DELAY=10
+        RETRIES=0
+
+        while [[ $RETRIES -lt $MAX_RETRIES ]]; do
+          STATUS=$(curl -X GET $STATUS_URL -H "Authorization: Token ${PA_API_TOKEN}" | jq -r '.status')
+          if [[ $STATUS == "running" ]]; then
+            echo "Console is ready."
+            break
+          fi
+          echo "Console not ready yet. Retrying in $RETRY_DELAY seconds..."
+          sleep $RETRY_DELAY
+          ((RETRIES++))
+        done
+
+        if [[ $RETRIES -ge $MAX_RETRIES ]]; then
+          echo "Console failed to start after $((MAX_RETRIES * RETRY_DELAY)) seconds."
+          exit 1
+        fi
 
         # Execute deployment commands
         curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=source /home/domiyang/SpaceCodey/venv/bin/activate"
