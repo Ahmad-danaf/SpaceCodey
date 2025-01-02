@@ -29,6 +29,9 @@ jobs:
           -H "Content-Type: application/json" \
           --data '{"executable": "/bin/bash"}' > console.json
 
+        # Wait for the console to initialize
+        sleep 45
+
         # Extract console ID and prepare the execute URL
         CONSOLE_ID=$(cat console.json | jq -r '.id')
         EXECUTE_URL="https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/consoles/${CONSOLE_ID}/send_input/"
