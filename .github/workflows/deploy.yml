@@ -1,0 +1,56 @@
+name: Deploy to PythonAnywhere
+
+on:
+  push:
+    branches:
+      - production  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install required tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl jq
+
+    - name: Execute deployment commands on PythonAnywhere
+      env:
+        PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
+        PA_USERNAME: ${{ secrets.PA_USERNAME }}
+      run: |
+        # Start a new console session on PythonAnywhere
+        curl -X POST https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/consoles/ \
+          -H "Authorization: Token ${PA_API_TOKEN}" \
+          -H "Content-Type: application/json" \
+          --data '{"executable": "/bin/bash"}' > console.json
+
+        # Extract console ID and prepare the execute URL
+        CONSOLE_ID=$(cat console.json | jq -r '.id')
+        EXECUTE_URL="https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/consoles/${CONSOLE_ID}/send_input/"
+
+        # Execute deployment commands
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=source /home/domiyang/SpaceCodey/venv/bin/activate"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=cd SpaceCodey/SpaceCodey/"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=git pull origin"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=pip install -r requirements.txt"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=cd SpaceCodey"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=python manage.py migrate"
+        curl -X POST $EXECUTE_URL -H "Authorization: Token ${PA_API_TOKEN}" --data-urlencode "input=python manage.py collectstatic --noinput"
+
+    - name: Reload PythonAnywhere Web App
+      env:
+        PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
+        PA_USERNAME: ${{ secrets.PA_USERNAME }}
+        PA_DOMAIN_NAME: ${{ secrets.PA_DOMAIN_NAME }}
+      run: |
+        # Reload the web app using PythonAnywhere API
+        curl -X POST https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/webapps/${PA_DOMAIN_NAME}/reload/ \
+             -H "Authorization: Token ${PA_API_TOKEN}"
+
+    - name: Notify Success
+      run: echo "Deployment and reload completed successfully! 🚀"
