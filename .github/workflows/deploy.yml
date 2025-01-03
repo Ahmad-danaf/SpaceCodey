@@ -25,8 +25,9 @@ jobs:
         ssh ${{ secrets.PA_USERNAME }}@ssh.pythonanywhere.com << 'EOF'
         source /home/${{ secrets.PA_USERNAME }}/SpaceCodey/venv/bin/activate
         cd /home/${{ secrets.PA_USERNAME }}/SpaceCodey/SpaceCodey
-        git pull origin
+        git pull origin production
         pip install -r requirements.txt
+        cd SpaceCodey
         python manage.py migrate
         python manage.py collectstatic --noinput
         EOF
@@ -35,7 +36,7 @@ jobs:
       env:
         PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
         PA_USERNAME: ${{ secrets.PA_USERNAME }}
-        PA_DOMAIN_NAME: <your_custom_domain>
+        PA_DOMAIN_NAME: ${{ env.PA_DOMAIN_NAME }}
       run: |
         curl -X POST https://www.pythonanywhere.com/api/v0/user/${{ env.PA_USERNAME }}/webapps/${{ env.PA_DOMAIN_NAME }}/reload/ \
              -H "Authorization: Token ${{ env.PA_API_TOKEN }}"
