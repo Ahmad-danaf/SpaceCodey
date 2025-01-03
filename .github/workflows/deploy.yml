@@ -10,22 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup SSH
+    - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        echo "${{ secrets.PA_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan ssh.pythonanywhere.com >> ~/.ssh/known_hosts
 
-    - name: Deploy via SSH
+    - name: Deploy application
       run: |
-        ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@ssh.pythonanywhere.com << EOF
-        cd SpaceCodey/SpaceCodey/
-        git pull origin production
-        source ../venv/bin/activate
+        ssh ${{ secrets.PA_USERNAME }}@ssh.pythonanywhere.com << 'EOF'
+        source /home/${{ secrets.PA_USERNAME }}/SpaceCodey/venv/bin/activate
+        cd /home/${{ secrets.PA_USERNAME }}/SpaceCodey/SpaceCodey
+        git pull origin
         pip install -r requirements.txt
         python manage.py migrate
         python manage.py collectstatic --noinput
@@ -34,8 +34,8 @@ jobs:
     - name: Reload PythonAnywhere Web App
       env:
         PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
-        PA_USERNAME: ${{ secrets.SSH_USER }}
-        PA_DOMAIN_NAME: ${{ secrets.PA_DOMAIN_NAME }}
+        PA_USERNAME: ${{ secrets.PA_USERNAME }}
+        PA_DOMAIN_NAME: <your_custom_domain>
       run: |
-        curl -X POST https://www.pythonanywhere.com/api/v0/user/${PA_USERNAME}/webapps/${PA_DOMAIN_NAME}/reload/ \
-             -H "Authorization: Token ${PA_API_TOKEN}"
+        curl -X POST https://www.pythonanywhere.com/api/v0/user/${{ env.PA_USERNAME }}/webapps/${{ env.PA_DOMAIN_NAME }}/reload/ \
+             -H "Authorization: Token ${{ env.PA_API_TOKEN }}"
