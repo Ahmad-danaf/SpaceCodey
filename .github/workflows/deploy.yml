@@ -32,11 +32,11 @@ jobs:
         python manage.py collectstatic --noinput
         EOF
 
-    - name: Reload PythonAnywhere Web App
-      env:
-        PA_API_TOKEN: ${{ secrets.PA_API_TOKEN }}
-        PA_USERNAME: ${{ secrets.PA_USERNAME }}
-        PA_DOMAIN_NAME: ${{ env.PA_DOMAIN_NAME }}
-      run: |
-        curl -X POST https://www.pythonanywhere.com/api/v0/user/${{ env.PA_USERNAME }}/webapps/${{ env.PA_DOMAIN_NAME }}/reload/ \
-             -H "Authorization: Token ${{ env.PA_API_TOKEN }}"
+  reload:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Reload web app
+        run: |
+          curl -X POST "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USERNAME }}/webapps/${{ secrets.PA_DOMAIN_NAME }}/reload/" \
+          -H "Authorization: Token ${{ secrets.PA_API_TOKEN }}"
