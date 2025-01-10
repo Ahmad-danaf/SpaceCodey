@@ -6,4 +6,4 @@ class UserManagementConfig(AppConfig):
     name = 'user_management'
 
     def ready(self):
-        import user_management.signals  # Import the signals module
+        import user_management.signals  

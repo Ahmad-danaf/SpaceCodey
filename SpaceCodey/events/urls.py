@@ -1,12 +1,13 @@
 from django.urls import path
 from . import views
+from .api import event_list, event_detail, DisplayOptimalTimesAPIView, BodyInfoAPIView
 
 app_name='events'
 
 urlpatterns = [
-    path('events/', views.event_list, name='event_list'),
-    path('event/<int:event_id>/', views.event_detail, name='event_detail'),
-    path('body_info/', views.body_info, name='body_info'),
-    path('optimal_times_form/', views.input_location, name='optimal_times_form'),
-    path('display_optimal_times/', views.display_optimal_times, name='display_optimal_times'),
+    # API endpoints
+    path('', event_list, name='event_list'),  # List all events
+    path('<int:event_id>/', event_detail, name='event_detail'),  # Event detail
+    path('optimal-times/', DisplayOptimalTimesAPIView.as_view(), name='display_optimal_times'),  # Optimal times API
+    path('body-info/', BodyInfoAPIView.as_view(), name='body_info'),  # Body info API
 ]

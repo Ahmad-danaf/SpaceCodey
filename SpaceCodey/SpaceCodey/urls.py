@@ -23,12 +23,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('landing-page',views.LandingPage.as_view(),name='landing-page'),
     re_path(r"^$", views.HomePage.as_view(), name="home"),
-    path('',include('user_management.urls', namespace='account')),
-    path('',include('events.urls', namespace='events')),
-    path('',include('weather.urls', namespace='weather')),
-    path('',include('nasa_info.urls', namespace='nasa')),
-    path('content/', include('content.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path('api/account/',include('user_management.urls', namespace='account')),
+    path('api/events/',include('events.urls', namespace='events')),
+    path('api/weather/',include('weather.urls', namespace='weather')),
+    path('api/nasa/',include('nasa_info.urls', namespace='nasa')),
+    path('api/content/', include('content.urls')),
     path('api/check-auth/', views.check_auth, name='check_auth'),
 
 ]
