@@ -16,20 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path,include
 from . import views
+from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    # Admin Panel
     path('admin/', admin.site.urls),
-    path('landing-page',views.LandingPage.as_view(),name='landing-page'),
-    re_path(r"^$", views.HomePage.as_view(), name="home"),
+    
+    # CKEditor Integration
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    
+    # API Endpoints
     path('api/account/',include('user_management.urls', namespace='account')),
     path('api/events/',include('events.urls', namespace='events')),
     path('api/weather/',include('weather.urls', namespace='weather')),
     path('api/nasa/',include('nasa_info.urls', namespace='nasa')),
     path('api/content/', include('content.urls')),
     path('api/check-auth/', views.check_auth, name='check_auth'),
+    
+    # Serve React Frontend
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='react-frontend'),
 
 ]
 
