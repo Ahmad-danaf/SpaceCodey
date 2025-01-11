@@ -1,0 +1,33 @@
+.activate-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    text-align: center;
+  }
+  
+  .loading-message {
+    font-size: 1.5rem;
+    color: #007bff;
+  }
+  
+  .success-message {
+    font-size: 1.25rem;
+    color: green;
+  }
+  
+  .error-message {
+    font-size: 1.25rem;
+    color: red;
+  }
+  
+  .error-message a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .error-message a:hover {
+    text-decoration: underline;
+  }
+  
