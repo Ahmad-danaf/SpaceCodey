@@ -1,22 +1,24 @@
 .feature {
-    text-align: center;
-    padding: 1.5em;
-    border-radius: 10px;
-    background-color: #333333;
-    margin: 10px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s;
-  }
-  
-  .feature:hover {
-    transform: scale(1.05);
-  }
-  
-  .feature h2 {
-    color: #ff9f1c;
-  }
-  
-  .feature p {
-    color: #d3d3d3;
-  }
-  
+  text-align: center;
+  padding: 1.5em;
+  border-radius: 10px;
+  background-color: #333333;
+  margin: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+.feature:hover {
+  transform: scale(1.05);
+}
+.feature h2 {
+  color: #ff9f1c;
+}
+.feature p {
+  color: #d3d3d3;
+}
+.footer {
+  background-color: #1b1b1b;
+  color: #d3d3d3;
+  text-align: center;
+  padding: 1em 0;
+}

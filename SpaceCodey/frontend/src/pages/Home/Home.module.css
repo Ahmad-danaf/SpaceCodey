@@ -1,139 +1,50 @@
-/* General Styling */
-body {
-    background-color: #0b0d17;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* Hero Section */
-  .hero {
-    background: url('/static/images/hero-bg.jpg') center/cover no-repeat;
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .hero-overlay {
-    background: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .welcome-text {
-    text-align: center;
-    z-index: 1;
-  }
-  
-  .welcome-text h1 {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5em;
-    color: #fff;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  
-  .welcome-text p {
-    font-size: 1.2rem;
-    margin-bottom: 1em;
-  }
-  
-  .button-group a {
-    margin: 0 15px;
-  }
-  
-  /* Features Section */
-  .features-wrapper {
-    padding: 4em 2em;
-    background-color: #1b1b1b;
-    text-align: center;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-    color: #ff9f1c;
-    margin-bottom: 0.5em;
-  }
-  
-  .section-subtitle {
-    color: #d3d3d3;
-    font-size: 1.2rem;
-    margin-bottom: 2em;
-  }
-  
-  /* Astrophotography Showcase */
-  .showcase {
-    background: url('/static/images/showcase-bg.jpg') center/cover no-repeat;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .showcase-overlay {
-    background: rgba(0, 0, 0, 0.6);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .showcase h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 0.5em;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  
-  .showcase p {
-    color: #d3d3d3;
-    margin-bottom: 1em;
-  }
-  
-  .showcase a {
-    padding: 10px 20px;
-    background-color: #ff9f1c;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-  
-  .showcase a:hover {
-    background-color: #e68a00;
-  }
-  
-  /* Scroll-to-Top Button */
-  .scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none;
-    background-color: #ff9f1c;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
-  }
-  
-  .scroll-to-top.active {
-    display: block;
-  }
+.mycontent {
+  background-color: #1b1b1b;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
 
-  body {
-    padding-top: 56px; /* Adjust this value based on your navbar's height */
-  }
+/* Hero Section */
+.hero {
+  background: url("images/pic-3.jpg") center/cover no-repeat;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('images/pic-3.jpg') center/cover no-repeat; 
+}
+.hero h1, .hero p {
+  position: relative;
+  z-index: 1;
+}
 
-  
+.welcomeText {
+  position: relative;
+  z-index: 5;
+  padding-bottom: 230px;
+}
+.welcomeText .btn {
+  margin: 0 10px;
+}
+
+.smallText {
+  font-size: 0.9rem;
+  color: white;
+}
+
+/* Features Section */
+.features {
+  padding: 2em 0;
+  background-color: #262626;
+}

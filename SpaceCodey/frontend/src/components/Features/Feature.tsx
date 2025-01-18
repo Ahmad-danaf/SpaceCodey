@@ -1,17 +1,18 @@
 import React from "react";
-import "./Feature.module.css";
+import styles from "./Features.module.css";
 
 interface FeatureProps {
   title: string;
   description: string;
+  link: string;
 }
 
-const Feature: React.FC<FeatureProps> = ({ title, description }) => {
+const Feature: React.FC<FeatureProps> = ({ title, description, link }) => {
   return (
-    <div className="feature">
+    <a href={link} className={styles.feature}>
       <h2>{title}</h2>
       <p>{description}</p>
-    </div>
+    </a>
   );
 };
 

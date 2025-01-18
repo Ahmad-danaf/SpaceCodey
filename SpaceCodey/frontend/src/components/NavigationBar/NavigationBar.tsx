@@ -11,45 +11,30 @@ const NavigationBar: React.FC = () => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
-      <Container>
-        {/* Brand Logo */}
-        <Navbar.Brand as={Link} to="/">SpaceCodey</Navbar.Brand>
-
-        {/* Responsive Toggler */}
-        <Navbar.Toggle aria-controls="navbar-nav" />
-        <Navbar.Collapse id="navbar-nav">
-          {/* Left-aligned Links */}
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/nasa-apod">NASA APOD</Nav.Link>
-            <Nav.Link as={Link} to="/ISS-tracker">ISS Tracker</Nav.Link>
-            <Nav.Link as={Link} to="/weather">Weather</Nav.Link>
-            <Nav.Link as={Link} to="/events/optimal-times-form">Optimal Shoot Times</Nav.Link>
-            <Nav.Link as={Link} to="/events/body-info">Astronomy Tracker</Nav.Link>
-            <Nav.Link as={Link} to="/tips">Tips & Articles</Nav.Link>
-            <Nav.Link as={Link} to="/contact-us">Contact Us</Nav.Link>
-            <Nav.Link as={Link} to="/support">Support Us</Nav.Link>
-          </Nav>
-
-          {/* Right-aligned Links */}
-          <Nav>
-            {isAuthenticated ? (
-              <>
-                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-                <Nav.Link as={Link} to="/sessions">Sessions</Nav.Link>
-                <Button variant="outline-light" onClick={handleLogout}>Logout</Button>
-              </>
-            ) : (
-              <>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                <Nav.Link as={Link} to="/register">Signup</Nav.Link>
-              </>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">SpaceCodey</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item"><a className="nav-link" href="/nasa-apod">NASA APOD</a></li>
+            <li className="nav-item"><a className="nav-link" href="/iss-tracker">ISS Tracker</a></li>
+            <li className="nav-item"><a className="nav-link" href="/weather">Weather</a></li>
+            <li className="nav-item"><a className="nav-link" href="/optimal-shoot-times">Optimal Shoot Times</a></li>
+            <li className="nav-item"><a className="nav-link" href="/astronomy-tracker">Astronomy Tracker</a></li>
+            <li className="nav-item"><a className="nav-link" href="/tips">Tips & Articles</a></li>
+          </ul>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li className="nav-item"><a className="nav-link" href="/login">Login</a></li>
+            <li className="nav-item"><a className="nav-link" href="/signup">Signup</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
+
 
 export default NavigationBar;
