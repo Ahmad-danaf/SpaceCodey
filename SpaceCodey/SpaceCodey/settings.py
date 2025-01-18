@@ -116,9 +116,15 @@ SESSION_COOKIE_SAMESITE='Lax'
 
 
 
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "X-API-KEY",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # For local React frontend
+    "http://localhost:5173",  # For local React frontend
     "http://localhost:5000",  # For local Express backend
     "http://localhost:8000",  # For local Django frontend
     "https://spacecodey.com", # Production frontend
@@ -128,6 +134,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # For local React frontend
+    "http://localhost:5173",  # For local React frontend
     "http://localhost:5000",  # For local Express backend
     "http://localhost:8000",  # For local Django frontend
     "https://spacecodey.com", # Production frontend

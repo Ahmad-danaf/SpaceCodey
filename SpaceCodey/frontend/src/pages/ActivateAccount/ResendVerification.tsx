@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import "./ResendVerification.module.css";
 
+const API_BASE_URL =
+  import.meta.env.VITE_DEBUG_MODE === "development"
+    ? import.meta.env.VITE_DEV_API_BASE_URL
+    : import.meta.env.VITE_PROD_API_BASE_URL;
+
 const ResendVerification: React.FC = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -14,11 +19,13 @@ const ResendVerification: React.FC = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("/api/account/resend-verification/", {
+      const apiKey = import.meta.env.VITE_X_API_KEY;
+
+      const response = await fetch(`${API_BASE_URL}/account/resend-verification/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "your_api_key_here", // Replace with your actual API key
+          "x-api-key": apiKey || "", 
         },
         body: JSON.stringify({ email }),
       });

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ActivateAccount.module.css";
 
+const API_BASE_URL =
+  import.meta.env.VITE_DEBUG_MODE === "development"
+    ? import.meta.env.VITE_DEV_API_BASE_URL
+    : import.meta.env.VITE_PROD_API_BASE_URL;
+
 const ActivateAccount: React.FC = () => {
   const { uidb64, token } = useParams<{ uidb64: string; token: string }>();
   const navigate = useNavigate();
@@ -18,11 +23,13 @@ const ActivateAccount: React.FC = () => {
       }
 
       try {
-        const response = await fetch(`/api/account/activate/${uidb64}/${token}/`, {
+        const apiKey = import.meta.env.VITE_X_API_KEY;
+
+        const response = await fetch(`${API_BASE_URL}/account/activate/${uidb64}/${token}/`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "your_api_key_here", // Replace with your actual API key
+            "x-api-key": apiKey || "",
           },
         });
 

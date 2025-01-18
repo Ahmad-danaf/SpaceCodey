@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.module.css";
 
+const API_BASE_URL =
+  import.meta.env.VITE_DEBUG_MODE == "development"
+    ? import.meta.env.VITE_DEV_API_BASE_URL
+    : import.meta.env.VITE_PROD_API_BASE_URL;
+
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -36,10 +41,13 @@ const Register: React.FC = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("/api/account/register/", {
+      const apiKey = import.meta.env.VITE_X_API_KEY;
+
+      const response = await fetch(`${API_BASE_URL}/account/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": apiKey || "", 
         },
         body: JSON.stringify({
           username: formData.username,

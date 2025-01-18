@@ -13,6 +13,12 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
+  // Determine base URL based on the environment
+  const API_BASE_URL =
+    import.meta.env.VITE_DEBUG_MODE == "development"
+      ? import.meta.env.VITE_DEV_API_BASE_URL
+      : import.meta.env.VITE_PROD_API_BASE_URL;
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -27,10 +33,13 @@ const Login: React.FC = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("/api/account/login/", {
+      const apiKey = import.meta.env.VITE_X_API_KEY;
+
+      const response = await fetch(`${API_BASE_URL}/account/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": apiKey || "", 
         },
         body: JSON.stringify(formData),
       });
