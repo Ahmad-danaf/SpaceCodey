@@ -1,0 +1,71 @@
+html body {
+    background: #0d0d0d;
+    color: #dcdcdc;
+    font-family: "Roboto", sans-serif;
+    
+  }
+  
+  .decisionContainer {
+    padding: 4rem 0;
+  }
+  
+  .cardDecision {
+    background-color: #1c1c1c;
+    border: 1px solid #2b2b2b;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+    color: #fff;
+    border: none !important;
+}
+
+.cardDecision:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.2);
+    border: none;
+}
+
+  
+  .cardTitle {
+    font-family: "Pixelify Sans", sans-serif;
+    color: #ff9f1c;
+  }
+  
+  /* Center the cards vertically */
+  .rowCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Space-themed background */
+  html body::before {
+    
+    background: url("https://images-assets.nasa.gov/image/iss071e418742/iss071e418742~medium.jpg")
+      no-repeat center center fixed;
+    background-size: cover;
+    
+  }
+  
+  .cardBody{
+    background-color: #1c1c1c;
+    color: #fff;
+    flex : 1 1 auto;
+    padding: 1erm 1rem;
+  }
+
+  footer {
+    background-color: #0d0d0d; 
+    color: #dcdcdc;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.cardDecision {
+    background-color: #1c1c1c;
+    border: 1px solid #2b2b2b;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+    color: #fff;
+}

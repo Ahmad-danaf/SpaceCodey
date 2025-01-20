@@ -6,6 +6,11 @@ import Register from "../pages/Register/Register";
 import ActivateAccount from "../pages/ActivateAccount/ActivateAccount";
 import ResendVerification from "../pages/ActivateAccount/ResendVerification";
 import MainLayout from "../layouts/MainLayout";
+import TipsList from "../pages/Tips/TipsList";
+import TipDetail from "../pages/Tips/TipDetail";
+import ArticlesList from "../pages/Articles/ArticlesList";
+import ArticleDetail from "../pages/Articles/ArticleDetail";
+import DecisionPage from "../pages/DecisionPage/DecisionPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -18,7 +23,12 @@ const AppRoutes: React.FC = () => {
           <Route path="/activate/:uidb64/:token" element={<ActivateAccount />} />
           <Route path="/resend-verification" element={<ResendVerification />} />
           
-          
+          {/* Content Routes */}
+          <Route path="/tips-and-articles" element={<DecisionPage />} />
+          <Route path="/tips" element={<TipsList />} />
+          <Route path="/tips/:id" element={<TipDetail />} />
+          <Route path="/articles" element={<ArticlesList />} />
+          <Route path="/articles/:id" element={<ArticleDetail />} />
         </Route>
 
         

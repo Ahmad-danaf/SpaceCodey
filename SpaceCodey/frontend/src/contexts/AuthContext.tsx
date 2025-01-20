@@ -27,11 +27,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [token]);
 
   const login = (newToken: string) => {
-    setToken(newToken);
+    setToken(newToken); // Store token in state and localStorage
   };
 
   const logout = () => {
-    setToken(null);
+    setToken(null); // Clear token from state and localStorage
     navigate("/login");
   };
 

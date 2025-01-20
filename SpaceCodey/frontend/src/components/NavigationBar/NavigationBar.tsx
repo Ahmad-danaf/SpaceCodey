@@ -1,6 +1,4 @@
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const NavigationBar: React.FC = () => {
@@ -24,17 +22,34 @@ const NavigationBar: React.FC = () => {
             <li className="nav-item"><a className="nav-link" href="/weather">Weather</a></li>
             <li className="nav-item"><a className="nav-link" href="/optimal-shoot-times">Optimal Shoot Times</a></li>
             <li className="nav-item"><a className="nav-link" href="/astronomy-tracker">Astronomy Tracker</a></li>
-            <li className="nav-item"><a className="nav-link" href="/tips">Tips & Articles</a></li>
+            <li className="nav-item"><a className="nav-link" href="/tips-and-articles">Tips & Articles</a></li>
           </ul>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item"><a className="nav-link" href="/login">Login</a></li>
-            <li className="nav-item"><a className="nav-link" href="/signup">Signup</a></li>
+            {isAuthenticated ? (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="/profile">Profile</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/sessions">Sessions</a>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item"><a className="nav-link" href="/login">Login</a></li>
+                <li className="nav-item"><a className="nav-link" href="/register">Signup</a></li>
+              </>
+            )}
           </ul>
         </div>
       </div>
     </nav>
   );
 };
-
 
 export default NavigationBar;

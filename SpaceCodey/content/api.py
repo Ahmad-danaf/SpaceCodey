@@ -7,12 +7,13 @@ from .serializers import TipSerializer, ArticleSerializer
 from django.core.mail import send_mail
 from django.conf import settings
 from .utils.sessionhub import sessionhub_request
+from rest_framework.permissions import AllowAny
 
 class TipsListAPIView(APIView):
     """
     API endpoint to list all tips.
     """
-
+    permission_classes = [AllowAny]
     def get(self, request):
         tips = Tip.objects.all().order_by('-created_at')
         serializer = TipSerializer(tips, many=True)
@@ -23,7 +24,7 @@ class TipDetailAPIView(APIView):
     """
     API endpoint to retrieve a specific tip by its ID.
     """
-
+    permission_classes = [AllowAny]
     def get(self, request, pk):
         tip = get_object_or_404(Tip, pk=pk)
         serializer = TipSerializer(tip)
@@ -34,7 +35,7 @@ class ArticlesListAPIView(APIView):
     """
     API endpoint to list all articles.
     """
-
+    permission_classes = [AllowAny]
     def get(self, request):
         articles = Article.objects.all().order_by('-created_at')
         serializer = ArticleSerializer(articles, many=True)
@@ -45,7 +46,7 @@ class ArticleDetailAPIView(APIView):
     """
     API endpoint to retrieve a specific article by its ID.
     """
-
+    permission_classes = [AllowAny]
     def get(self, request, pk):
         article = get_object_or_404(Article, pk=pk)
         serializer = ArticleSerializer(article)
@@ -56,7 +57,7 @@ class ContactUsAPIView(APIView):
     """
     API endpoint to handle 'Contact Us' form submissions.
     """
-
+    permission_classes = [AllowAny]
     def post(self, request):
         name = request.data.get('name')
         email = request.data.get('email')
@@ -94,7 +95,7 @@ class SessionListAPIView(APIView):
     """
     API endpoint to list all sessions for a user.
     """
-
+    permission_classes = [AllowAny]
     def get(self, request):
         user_id = request.headers.get('User-Id')  # Extract User ID from headers
         if not user_id:
@@ -113,7 +114,7 @@ class AddSessionAPIView(APIView):
     """
     API endpoint to add a new session.
     """
-
+    permission_classes = [AllowAny]
     def post(self, request):
         user_id = request.headers.get('User-Id')  # Extract User ID from headers
         if not user_id:
@@ -138,7 +139,7 @@ class EditSessionAPIView(APIView):
     """
     API endpoint to edit an existing session.
     """
-
+    permission_classes = [AllowAny]
     def put(self, request, session_id):
         user_id = request.headers.get('User-Id')  # Extract User ID from headers
         if not user_id:
@@ -162,7 +163,7 @@ class DeleteSessionAPIView(APIView):
     """
     API endpoint to delete a session.
     """
-
+    permission_classes = [AllowAny]
     def delete(self, request, session_id):
         user_id = request.headers.get('User-Id')  # Extract User ID from headers
         if not user_id:

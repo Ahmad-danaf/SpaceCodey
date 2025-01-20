@@ -5,3 +5,10 @@ html body {
     padding-top: 70px;
 }
 
+.navbar-toggle .icon-bar {
+    background-color: #ff9f1c;
+}
+.navbar.scrolled {
+    background-color: #0d0d0d;
+    transition: background-color 0.3s;
+}

@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.module.css";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Determine base URL based on the environment
   const API_BASE_URL =
-    import.meta.env.VITE_DEBUG_MODE == "development"
+    import.meta.env.VITE_DEBUG_MODE === "development"
       ? import.meta.env.VITE_DEV_API_BASE_URL
       : import.meta.env.VITE_PROD_API_BASE_URL;
 
@@ -30,7 +31,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     try {
       const apiKey = import.meta.env.VITE_X_API_KEY;
@@ -46,19 +47,23 @@ const Login: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        if (errorData.error) {
-          throw new Error(errorData.error);
-        }
-        throw new Error("An error occurred while logging in.");
+        throw new Error(errorData.error || "Failed to log in.");
       }
 
       const data = await response.json();
+
+      if (!data.token) {
+        throw new Error("Login response did not return a token.");
+      }
+
       login(data.token); // Save token using AuthContext
-      navigate("/profile"); // Redirect to profile page
+
+      const redirectPath = location.state?.from || "/";
+      navigate(redirectPath); // Redirect to intended page or home
     } catch (err) {
-      setError((err as Error).message);
+      setError((err as Error).message || "An unexpected error occurred.");
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 

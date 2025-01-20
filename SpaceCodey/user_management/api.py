@@ -8,6 +8,7 @@ from .models import CustomUser, Profile
 from .serializers import UserSerializer, ProfileSerializer, LoginSerializer
 from .utils.send_verification_email import send_verification_email
 from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 
 
 class RegisterAPIView(APIView):
@@ -53,8 +54,13 @@ class LoginAPIView(APIView):
                         status=status.HTTP_401_UNAUTHORIZED,
                     )
 
+                # Generate or retrieve the token
+                token, _ = Token.objects.get_or_create(user=user)
                 login(request, user)
-                return JsonResponse({"message": f"Welcome back, {user.username}!"}, status=status.HTTP_200_OK)
+                return JsonResponse(
+                    {"message": f"Welcome back, {user.username}!", "token": token.key},
+                    status=status.HTTP_200_OK,
+                )
 
             return JsonResponse({"error": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -116,7 +122,7 @@ class ResendVerificationEmailAPIView(APIView):
         email = request.data.get("email")
 
         if not email:
-            return JsonResponse({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({"error": "Please provide a valid email address."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user = CustomUser.objects.get(email=email)
@@ -124,9 +130,11 @@ class ResendVerificationEmailAPIView(APIView):
             if user.email_verified:
                 return JsonResponse({"message": "Your email is already verified."}, status=status.HTTP_200_OK)
 
-            # Resend verification email
             send_verification_email(request, user)
-            return JsonResponse({"message": "Verification email has been resent."}, status=status.HTTP_200_OK)
+            return JsonResponse({"message": "A new verification email has been sent."}, status=status.HTTP_200_OK)
 
         except CustomUser.DoesNotExist:
-            return JsonResponse({"error": "No account found with this email address."}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse(
+                {"error": "No account associated with this email address."},
+                status=status.HTTP_404_NOT_FOUND,
+            )

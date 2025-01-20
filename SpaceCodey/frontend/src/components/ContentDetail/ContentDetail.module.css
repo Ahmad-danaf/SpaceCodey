@@ -1,0 +1,135 @@
+/* General body styling */
+html body {
+    background-color: #0d0d0d;
+    color: #dcdcdc;
+    font-family: "Roboto", sans-serif;
+  }
+  .mycontent {
+    padding-top: 50px;
+    background-color: #0d0d0d;
+    color: #dcdcdc;
+    font-family: "Roboto", sans-serif;
+}
+
+/* Article Card */
+.articleDetailCard {
+    background-color: #1c1c1c !important;
+    border: 1px solid #2b2b2b !important;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+    padding-top: 50px;
+    background-color: #0d0d0d;
+    color: #dcdcdc;
+
+}
+
+.articleDetailCard:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 12px 24px rgba(255, 255, 255, 0.2);
+}
+
+/* Article Title */
+.articleTitle {
+    font-family: 'Pixelify Sans', sans-serif;
+    color: #ff9f1c;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Meta information */
+.articleMeta {
+    font-size: 0.9rem;
+    color: #ffda79;
+    margin-bottom: 15px;
+}
+
+/* Article Content */
+.articleContent {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #eaeaea;
+}
+
+/* Button to go back to articles */
+#backButton {
+    background-color: #ff9f1c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+#backButton:hover {
+    background-color: #ffda79;
+    color: #000;
+}
+
+/* Space-themed background */
+html body::before,.mycontent::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/pia23492-16.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+
+.samllText{
+    font-size: 0.875rem;
+    color: #ffda79;
+    color:#6c757d;
+}
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    /* Adjust article card for smaller screens */
+    .article-detail-card {
+        padding: 15px;
+    }
+
+    /* Adjust title size on smaller screens */
+    .article-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    /* Adjust the meta and content for mobile */
+    .article-meta {
+        font-size: 0.8rem;
+    }
+
+    .article-content {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    /* Button adjustments */
+    .btn-back {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+/* Further scaling for very small screens like phones (width <= 480px) */
+@media (max-width: 480px) {
+    .article-title {
+        font-size: 1.8rem;
+    }
+
+    .article-content {
+        font-size: 0.95rem;
+    }
+
+    .btn-back {
+        font-size: 0.85rem;
+    }
+}

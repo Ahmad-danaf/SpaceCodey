@@ -119,7 +119,9 @@ SESSION_COOKIE_SAMESITE='Lax'
 from corsheaders.defaults import default_headers
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
-    "X-API-KEY",
+    "content-type",
+    "authorization",
+    "x-api-key",
 ]
 
 CORS_ALLOWED_ORIGINS = [
