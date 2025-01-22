@@ -5,4 +5,5 @@ app_name='weather'
 
 urlpatterns = [
     path('', api.WeatherAPIView.as_view(), name='weather_api'),
+    path("test/", api.WeatherTestAPI.as_view(), name="test_api"),
 ]

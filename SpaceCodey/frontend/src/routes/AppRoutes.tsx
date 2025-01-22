@@ -11,6 +11,7 @@ import TipDetail from "../pages/Tips/TipDetail";
 import ArticlesList from "../pages/Articles/ArticlesList";
 import ArticleDetail from "../pages/Articles/ArticleDetail";
 import DecisionPage from "../pages/DecisionPage/DecisionPage";
+import Weather from "../pages/Weather/Weather";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -29,6 +30,9 @@ const AppRoutes: React.FC = () => {
           <Route path="/tips/:id" element={<TipDetail />} />
           <Route path="/articles" element={<ArticlesList />} />
           <Route path="/articles/:id" element={<ArticleDetail />} />
+
+          {/* Weather Route */}
+          <Route path="/weather" element={<Weather />} />
         </Route>
 
         

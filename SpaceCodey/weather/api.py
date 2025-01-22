@@ -4,11 +4,12 @@ from rest_framework import status
 import requests
 import datetime
 import os
-
-# Use the API key from environment variables
+from rest_framework.permissions import AllowAny
+from time import sleep
 API_KEY = os.getenv('APIKEY')
 
 class WeatherAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         city1 = request.query_params.get('city1')
         city2 = request.query_params.get('city2', None)
@@ -102,3 +103,115 @@ class WeatherAPIView(APIView):
             )
 
         return list(daily_forecasts.values())[:5]
+
+
+class WeatherTestAPI(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        # sleep(5)
+        return Response({
+    "city1": {
+        "weather": {
+            "city": "ramla",
+            "temperature": 18.68,
+            "description": "clear sky",
+            "icon": "01d",
+            "cloudiness": 0
+        },
+        "forecasts": [
+            {
+                "day": "Tuesday",
+                "min_temp": 13.82,
+                "max_temp": 19.96,
+                "description": "clear sky",
+                "icon": "01d",
+                "cloudiness": 0
+            },
+            {
+                "day": "Wednesday",
+                "min_temp": 12.96,
+                "max_temp": 18.49,
+                "description": "broken clouds",
+                "icon": "04n",
+                "cloudiness": 52
+            },
+            {
+                "day": "Thursday",
+                "min_temp": 12.51,
+                "max_temp": 17.7,
+                "description": "light rain",
+                "icon": "10n",
+                "cloudiness": 55
+            },
+            {
+                "day": "Friday",
+                "min_temp": 11.48,
+                "max_temp": 17.56,
+                "description": "scattered clouds",
+                "icon": "03n",
+                "cloudiness": 48
+            },
+            {
+                "day": "Saturday",
+                "min_temp": 11.5,
+                "max_temp": 18.32,
+                "description": "overcast clouds",
+                "icon": "04n",
+                "cloudiness": 100
+            }
+        ],
+        "error": None
+    },
+    "city2": {
+        "weather": {
+            "city": "Tel-Aviv",
+            "temperature": 19.14,
+            "description": "clear sky",
+            "icon": "01d",
+            "cloudiness": 0
+        },
+        "forecasts": [
+            {
+                "day": "Tuesday",
+                "min_temp": 15.89,
+                "max_temp": 19.14,
+                "description": "clear sky",
+                "icon": "01d",
+                "cloudiness": 0
+            },
+            {
+                "day": "Wednesday",
+                "min_temp": 15.1,
+                "max_temp": 18.39,
+                "description": "broken clouds",
+                "icon": "04n",
+                "cloudiness": 51
+            },
+            {
+                "day": "Thursday",
+                "min_temp": 14.04,
+                "max_temp": 17.41,
+                "description": "light rain",
+                "icon": "10n",
+                "cloudiness": 40
+            },
+            {
+                "day": "Friday",
+                "min_temp": 13.33,
+                "max_temp": 17.11,
+                "description": "light rain",
+                "icon": "10n",
+                "cloudiness": 44
+            },
+            {
+                "day": "Saturday",
+                "min_temp": 13.21,
+                "max_temp": 18.09,
+                "description": "overcast clouds",
+                "icon": "04n",
+                "cloudiness": 100
+            }
+        ],
+        "error": None
+    }
+})
