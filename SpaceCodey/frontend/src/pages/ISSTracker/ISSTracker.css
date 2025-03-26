@@ -1,0 +1,178 @@
+/* Ensure the map container has proper height and width */
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Customize Leaflet popup to match the dark theme */
+.leaflet-popup-content-wrapper {
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.leaflet-popup-tip {
+  background-color: #333;
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  font-size: 14px;
+}
+
+/* Style Leaflet controls to match the dark theme */
+.leaflet-control-zoom a {
+  background-color: #444;
+  color: #fff;
+  border-color: #555;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #555;
+}
+
+.leaflet-control-zoom-in {
+  border-bottom: 1px solid #555 !important;
+}
+
+/* Animation for ISS icon */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.iss-icon-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Fallback icon styling */
+.iss-fallback-icon {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Make sure images have proper z-index */
+.leaflet-marker-icon {
+  z-index: 1000 !important;
+}
+
+/* Ensure the map tiles load properly */
+.leaflet-layer,
+.leaflet-control {
+  z-index: 1;
+}
+
+/* Make the map responsive */
+@media (max-width: 768px) {
+  #map {
+    height: 50vh;
+  }
+
+  .leaflet-control-zoom a {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+  }
+}
+
+/* Override leaflet's default z-index values to ensure ISS marker is on top */
+.leaflet-marker-pane {
+  z-index: 1000;
+}
+
+.leaflet-popup-pane {
+  z-index: 1001;
+}
+
+/* Make ISS icon glow for better visibility */
+.iss-icon-pulse::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 168, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  animation: glow 2s infinite ease-in-out;
+}
+
+@keyframes glow {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
+  }
+  50% {
+    width: 40px;
+    height: 40px;
+    opacity: 0.3;
+  }
+  100% {
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
+  }
+}
+
+/* Path styling fixes */
+.leaflet-interactive {
+  pointer-events: auto !important;
+}
+
+/* SVG Icon specific styling */
+.iss-svg-icon {
+  filter: drop-shadow(0 0 5px rgba(0, 168, 255, 0.8));
+}
+
+/* Ensure ISS icon has highest priority */
+.leaflet-marker-icon {
+  z-index: 9999 !important;
+}
+
+/* Make the marker pop more */
+.leaflet-marker-icon.iss-icon-pulse,
+.leaflet-marker-icon.iss-fallback-icon,
+.leaflet-marker-icon.iss-svg-icon {
+  filter: drop-shadow(0 0 8px rgba(0, 168, 255, 0.9));
+  border: none !important;
+  background: none !important;
+}
+
+/* Make sure map panes are correctly ordered */
+.leaflet-map-pane {
+  z-index: 100;
+}
+
+.leaflet-marker-pane {
+  z-index: 600;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+
+.leaflet-popup-pane {
+  z-index: 700;
+}
+
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+
+/* Fix for some environments where Leaflet markers don't show */
+.leaflet-marker-icon {
+  visibility: visible !important;
+  opacity: 1 !important;
+}

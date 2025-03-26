@@ -12,33 +12,45 @@ import ArticlesList from "../pages/Articles/ArticlesList";
 import ArticleDetail from "../pages/Articles/ArticleDetail";
 import DecisionPage from "../pages/DecisionPage/DecisionPage";
 import Weather from "../pages/Weather/Weather";
+import NasaApod from "../pages/NasaApod/NasaApod";
+import OptimalShootTimes from "../pages/OptimalShootTimes/OptimalShootTimes";
+import BodyInfo from "../pages/BodyInfo/BodyInfo";
+import ISSTracker from "../pages/ISSTracker/ISSTracker";
 
 const AppRoutes: React.FC = () => {
   return (
-      <Routes>
-        {/* Public Routes */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/activate/:uidb64/:token" element={<ActivateAccount />} />
-          <Route path="/resend-verification" element={<ResendVerification />} />
-          
-          {/* Content Routes */}
-          <Route path="/tips-and-articles" element={<DecisionPage />} />
-          <Route path="/tips" element={<TipsList />} />
-          <Route path="/tips/:id" element={<TipDetail />} />
-          <Route path="/articles" element={<ArticlesList />} />
-          <Route path="/articles/:id" element={<ArticleDetail />} />
+    <Routes>
+      {/* Public Routes */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/activate/:uidb64/:token" element={<ActivateAccount />} />
+        <Route path="/resend-verification" element={<ResendVerification />} />
 
-          {/* Weather Route */}
-          <Route path="/weather" element={<Weather />} />
-        </Route>
+        {/* Content Routes */}
+        <Route path="/tips-and-articles" element={<DecisionPage />} />
+        <Route path="/tips" element={<TipsList />} />
+        <Route path="/tips/:id" element={<TipDetail />} />
+        <Route path="/articles" element={<ArticlesList />} />
+        <Route path="/articles/:id" element={<ArticleDetail />} />
 
-        
+        {/* Weather Route */}
+        <Route path="/weather" element={<Weather />} />
 
-        
-      </Routes>
+        {/* NASA APOD Route */}
+        <Route path="/nasa-apod" element={<NasaApod />} />
+
+        {/* Optimal Shoot Times Route */}
+        <Route path="/optimal-times" element={<OptimalShootTimes />} />
+
+        {/* Celestial Body Info Route */}
+        <Route path="/astronomy-tracker" element={<BodyInfo />} />
+
+        {/* ISS Tracker Route */}
+        <Route path="/iss-tracker" element={<ISSTracker />} />
+      </Route>
+    </Routes>
   );
 };
 

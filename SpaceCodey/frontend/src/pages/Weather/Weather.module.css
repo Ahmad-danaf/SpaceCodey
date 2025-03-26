@@ -117,6 +117,7 @@
   }
 }
 
+/* Main container for all weather content */
 .weatherContainer {
   width: 100%;
   max-width: 1200px;
@@ -124,10 +125,12 @@
   padding: 20px;
 }
 
+/* Each city block */
 .cityContainer {
   margin-bottom: 2rem;
 }
 
+/* Title above each city block */
 .cityTitle {
   font-size: 1.5rem;
   color: #00d1ff;
@@ -135,44 +138,60 @@
   margin-bottom: 1rem;
 }
 
+/* Container for the "today" card + forecast cards */
 .cardContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* The big card for today's weather */
 .todayWeather {
   margin-bottom: 2rem;
 }
 
+/* Forecast cards in a grid for larger screens */
 .forecastContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  /* auto-fit creates columns that expand/shrink to fit available space */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
+  width: 100%;
+  margin: 0 auto;
+  justify-items: center; /* center each card horizontally */
+  align-items: start;    /* align cards at the top */
 }
 
+/* Each forecast card */
 .forecastCard {
-  flex: 1 1 calc(20% - 1rem);
-  max-width: calc(20% - 1rem);
+  max-width: 220px; /* Enough space for desktop to show multiple cards in a row */
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-@media (max-width: 768px) {
-  .forecastCard {
-    flex: 1 1 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
-  }
-}
-
+/* On smaller phones, force a single-column layout if you want simpler stacking */
 @media (max-width: 480px) {
+  .forecastContainer {
+    grid-template-columns: 1fr;
+  }
   .forecastCard {
-    flex: 1 1 100%;
     max-width: 100%;
   }
 }
 
+/* Error text styling */
 .error {
   color: #ff4d4d;
   text-align: center;
   margin-top: 1rem;
+}
+
+.cityError {
+  background: rgba(255, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
 }

@@ -20,7 +20,7 @@ const NavigationBar: React.FC = () => {
             <li className="nav-item"><a className="nav-link" href="/nasa-apod">NASA APOD</a></li>
             <li className="nav-item"><a className="nav-link" href="/iss-tracker">ISS Tracker</a></li>
             <li className="nav-item"><a className="nav-link" href="/weather">Weather</a></li>
-            <li className="nav-item"><a className="nav-link" href="/optimal-shoot-times">Optimal Shoot Times</a></li>
+            <li className="nav-item"><a className="nav-link" href="/optimal-times">Optimal Shoot Times</a></li>
             <li className="nav-item"><a className="nav-link" href="/astronomy-tracker">Astronomy Tracker</a></li>
             <li className="nav-item"><a className="nav-link" href="/tips-and-articles">Tips & Articles</a></li>
           </ul>

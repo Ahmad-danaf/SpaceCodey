@@ -42,7 +42,7 @@ class WeatherAPIView(APIView):
                 'error': error_message2,
             },
         }
-
+        
         return Response(response_data)
 
     def fetch_weather_and_forecast(self, city, current_weather_url, forecast_url):
@@ -105,20 +105,109 @@ class WeatherAPIView(APIView):
         return list(daily_forecasts.values())[:5]
 
 
+
 class WeatherTestAPI(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request):
-        # sleep(5)
-        return Response({
-    "city1": {
-        "weather": {
-            "city": "ramla",
-            "temperature": 18.68,
-            "description": "clear sky",
-            "icon": "01d",
-            "cloudiness": 0
-        },
-        "forecasts": [
+        mode = request.query_params.get("mode", "both_ok")
+
+        if mode == "both_ok":
+            return Response(self.mock_both_valid())
+
+        elif mode == "city1_error":
+            return Response(self.mock_city1_error())
+
+        elif mode == "city2_error":
+            return Response(self.mock_city2_error())
+
+        elif mode == "both_error":
+            return Response(self.mock_both_error())
+
+        return Response({"error": "Invalid mode"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def mock_both_valid(self):
+        return {
+            "city1": {
+                "weather": {
+                    "city": "ramla",
+                    "temperature": 18.68,
+                    "description": "clear sky",
+                    "icon": "01d",
+                    "cloudiness": 0
+                },
+                "forecasts": self.sample_forecasts(),
+                "error": None
+            },
+            "city2": {
+                "weather": {
+                    "city": "Tel-Aviv",
+                    "temperature": 19.14,
+                    "description": "clear sky",
+                    "icon": "01d",
+                    "cloudiness": 0
+                },
+                "forecasts": self.sample_forecasts(),
+                "error": None
+            }
+        }
+
+    def mock_city1_error(self):
+        return {
+            "city1": {
+                "weather": None,
+                "forecasts": None,
+                "error": "City not found. Please enter a valid city name."
+            },
+            "city2": {
+                "weather": {
+                    "city": "Tel-Aviv",
+                    "temperature": 19.14,
+                    "description": "clear sky",
+                    "icon": "01d",
+                    "cloudiness": 0
+                },
+                "forecasts": self.sample_forecasts(),
+                "error": None
+            }
+        }
+
+    def mock_city2_error(self):
+        return {
+            "city1": {
+                "weather": {
+                    "city": "ramla",
+                    "temperature": 18.68,
+                    "description": "clear sky",
+                    "icon": "01d",
+                    "cloudiness": 0
+                },
+                "forecasts": self.sample_forecasts(),
+                "error": None
+            },
+            "city2": {
+                "weather": None,
+                "forecasts": None,
+                "error": "City not found. Please enter a valid city name."
+            }
+        }
+
+    def mock_both_error(self):
+        return {
+            "city1": {
+                "weather": None,
+                "forecasts": None,
+                "error": "City not found. Please enter a valid city name."
+            },
+            "city2": {
+                "weather": None,
+                "forecasts": None,
+                "error": "City not found. Please enter a valid city name."
+            }
+        }
+
+    def sample_forecasts(self):
+        return [
             {
                 "day": "Tuesday",
                 "min_temp": 13.82,
@@ -159,59 +248,4 @@ class WeatherTestAPI(APIView):
                 "icon": "04n",
                 "cloudiness": 100
             }
-        ],
-        "error": None
-    },
-    "city2": {
-        "weather": {
-            "city": "Tel-Aviv",
-            "temperature": 19.14,
-            "description": "clear sky",
-            "icon": "01d",
-            "cloudiness": 0
-        },
-        "forecasts": [
-            {
-                "day": "Tuesday",
-                "min_temp": 15.89,
-                "max_temp": 19.14,
-                "description": "clear sky",
-                "icon": "01d",
-                "cloudiness": 0
-            },
-            {
-                "day": "Wednesday",
-                "min_temp": 15.1,
-                "max_temp": 18.39,
-                "description": "broken clouds",
-                "icon": "04n",
-                "cloudiness": 51
-            },
-            {
-                "day": "Thursday",
-                "min_temp": 14.04,
-                "max_temp": 17.41,
-                "description": "light rain",
-                "icon": "10n",
-                "cloudiness": 40
-            },
-            {
-                "day": "Friday",
-                "min_temp": 13.33,
-                "max_temp": 17.11,
-                "description": "light rain",
-                "icon": "10n",
-                "cloudiness": 44
-            },
-            {
-                "day": "Saturday",
-                "min_temp": 13.21,
-                "max_temp": 18.09,
-                "description": "overcast clouds",
-                "icon": "04n",
-                "cloudiness": 100
-            }
-        ],
-        "error": None
-    }
-})
+        ]

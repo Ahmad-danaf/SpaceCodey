@@ -12,46 +12,51 @@ interface WeatherCardProps {
 }
 
 const WeatherCard: React.FC<WeatherCardProps> = ({
-    city,
-    day,
-    weatherDescription,
-    icon,
-    temperature,
-    minTemp,
-    maxTemp,
-  }) => {
-    return (
-        // From Uiverse.io by vinodjangid07 
-        
-        <div className={styles.cardContainer}>
-          <div className={styles.card}>
-          <p className={styles.weather}>{day}</p>
-            <p className={styles.city}>{city.toUpperCase()}</p>
-            <p className={styles.weather}>{weatherDescription.toUpperCase()}</p>
-            <img
-          className={styles.weatherIcon}
-          src={`http://openweathermap.org/img/w/${icon}.png`}
-          alt={weatherDescription}
-          width="30"
-          height="30"
-        />
-            
-            <p className={styles.temp}>{`${temperature}°`}</p>
-            
-          <div className={styles.minmaxContainer}>
-            <div className={styles.min}>
-              <p className={styles.minHeading}>Min</p>
-              <p className={styles.minTemp}>{minTemp !== 999 ? `${minTemp}°` : ""}</p>
-            </div>
-              <div className={styles.max}>
-                <p className={styles.maxHeading}>Max</p>
-                <p className={styles.maxTemp}>{maxTemp !=999 ? `${maxTemp}°` : ""}</p>
-              </div>
-            </div>
+  city,
+  day,
+  weatherDescription,
+  icon,
+  temperature,
+  minTemp,
+  maxTemp,
+}) => {
+  return (
+    <div className={styles.cardContainer}>
+      <div className={styles.topRow}>
+        <span className={styles.day}>{day}</span>
+        <span className={styles.city}>{city.toUpperCase()}</span>
+      </div>
+      <div className={styles.mainRow}>
+        <div className={styles.iconTemp}>
+          <img
+            className={styles.weatherIcon}
+            src={`http://openweathermap.org/img/w/${icon}.png`}
+            alt={weatherDescription}
+          />
+          <div className={styles.tempDescription}>
+            <span className={styles.temp}>{temperature}°</span>
+            <span className={styles.description}>
+              {weatherDescription.toUpperCase()}
+            </span>
           </div>
-        </div>        
-    );
-  };
-  
-  export default WeatherCard;
-  
+        </div>
+        <div className={styles.minMaxContainer}>
+          <div className={styles.min}>
+            <span className={styles.label}>Min</span>
+            <span className={styles.value}>
+              {minTemp !== 999 ? `${minTemp}°` : ""}
+            </span>
+          </div>
+          <div className={styles.max}>
+            <span className={styles.label}>Max</span>
+            <span className={styles.value}>
+              {maxTemp !== 999 ? `${maxTemp}°` : ""}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WeatherCard;

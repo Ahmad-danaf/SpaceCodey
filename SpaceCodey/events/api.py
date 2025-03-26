@@ -7,6 +7,7 @@ from .utils import best_astrophotography_times, fetch_body_positions, fetch_body
 from geopy.geocoders import Nominatim
 from datetime import datetime
 from django.http import Http404
+from rest_framework.permissions import AllowAny
 
 def event_list(request):
     # fetch_new_events()
@@ -34,6 +35,7 @@ def event_detail(request, event_id):
     return JsonResponse(data)
 
 class DisplayOptimalTimesAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         geolocator = Nominatim(user_agent="astro_app")
         city = request.GET.get('city')
@@ -47,17 +49,18 @@ class DisplayOptimalTimesAPIView(APIView):
         default_latitude = 39.1031
         default_longitude = -84.5120
         chosen_place = {'city': '', 'lat': default_latitude, 'long': default_longitude}
-
+        print("City: ", city)
         # Handle city or latitude/longitude inputs
         if city:
             location = geolocator.geocode(city)
             if location:
-                chosen_place['city'] = city
+                chosen_place['city'] = str(location)
                 latitude = location.latitude
                 longitude = location.longitude
                 chosen_place['lat'] = latitude
                 chosen_place['long'] = longitude
             else:
+                return Response({"error": "City not found"}, status=404)
                 latitude = default_latitude
                 longitude = default_longitude
         elif latitude and longitude:
@@ -91,8 +94,9 @@ class DisplayOptimalTimesAPIView(APIView):
 
 
 class BodyInfoAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
-        body = request.GET.get('body', 'sun')
+        body = request.GET.get('body', 'sun').lower()
         latitude = request.GET.get('latitude', '38.775867')
         longitude = request.GET.get('longitude', '-84.39733')
         elevation = request.GET.get('elevation', '0')

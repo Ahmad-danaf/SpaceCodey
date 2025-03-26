@@ -5,7 +5,7 @@ from django.core.cache import cache
 import aiohttp
 import asyncio
 import os
-
+from rest_framework.permissions import AllowAny
 # Use the API key
 NASA_API_KEY = os.getenv('NASA_API_KEY')
 
@@ -14,7 +14,7 @@ class NasaApodAPIView(APIView):
     """
     API endpoint to fetch the NASA Astronomy Picture of the Day (APOD).
     """
-
+    permission_classes = [AllowAny]
     async def fetch_apod(self, api_url):
         async with aiohttp.ClientSession() as session:
             async with session.get(api_url) as response:
@@ -47,7 +47,7 @@ class ISSLocationAPIView(APIView):
     """
     API endpoint to fetch the real-time location of the ISS.
     """
-
+    permission_classes = [AllowAny]
     async def fetch_iss_location(self):
         iss_url = "http://api.open-notify.org/iss-now.json"
         async with aiohttp.ClientSession() as session:

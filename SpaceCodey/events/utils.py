@@ -123,7 +123,8 @@ def get_auth_string():
 def fetch_body_positions(latitude, longitude, elevation, from_date, to_date, time):
     url = "https://api.astronomyapi.com/api/v2/bodies/positions"
     auth_string = get_auth_string()
-    
+    formatted_time = time.replace("%3A", ":")
+    formatted_time = formatted_time+":00"
     headers = {
         "Authorization": f"Basic {auth_string}"
     }
@@ -134,13 +135,16 @@ def fetch_body_positions(latitude, longitude, elevation, from_date, to_date, tim
         "elevation": elevation,
         "from_date": from_date,
         "to_date": to_date,
-        "time": time,
+        "time": formatted_time,
         "output": "table"
     }
     
-    response = requests.get(url, headers=headers, params=params)
-    response.raise_for_status()
-    return response.json()
+    try:
+        response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        return {"data": {"table": {"rows": []}}}
 
 def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, time):
     supported_bodies = ['sun', 'moon']
@@ -149,7 +153,8 @@ def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, 
     
     url = f"https://api.astronomyapi.com/api/v2/bodies/events/{body}"
     auth_string = get_auth_string()
-    
+    formatted_time = time.replace("%3A", ":")
+    formatted_time = formatted_time+":00"
     headers = {
         "Authorization": f"Basic {auth_string}"
     }
@@ -160,7 +165,7 @@ def fetch_body_events(body, latitude, longitude, elevation, from_date, to_date, 
         "elevation": elevation,
         "from_date": from_date,
         "to_date": to_date,
-        "time": time,
+        "time": formatted_time,
         "output": "table"
     }
     

@@ -1,99 +1,156 @@
-.cardContainer {
-  width: fit-content;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
+:root {
+  --primary-color: #00a8ff;
+  --background-card: rgba(255, 255, 255, 0.08);
+  --text-color: #fff;
+  --shadow-color: rgba(0, 168, 255, 0.2);
+  --border-radius: 16px;
 }
 
-.card {
-  position: relative;
-  width: 220px;
-  height: 300px;
+/* Container that wraps the entire card */
+.cardContainer {
+  width: 280px;
+  /* On bigger screens, we’ll let it expand a bit. */
+  max-width: 320px;
+  background: var(--background-card);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 16px var(--shadow-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin: 16px;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
-  padding: 20px 10px;
-  border-radius: 10px;
-  backdrop-filter: blur(30px);
-  background-color: rgba(65, 65, 65, 0.308);
-  border: 1px solid rgba(255, 255, 255, 0.089);
-  cursor: pointer;
+  animation: fadeIn 0.6s ease-out;
 }
 
+/* First row: day on the left, city on the right */
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
 
+.day {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
 
 .city {
-  font-weight: 700;
-  font-size: 0.9em;
-  letter-spacing: 1.2px;
-  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-.weather {
-  font-weight: 500;
-  font-size: 0.7em;
-  letter-spacing: 1.2px;
-  color: rgb(197, 197, 197);
+/* Main row: icon & temp on the left, min/max on the right */
+.mainRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconTemp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weatherIcon {
+  width: 60px;
+  height: 60px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.tempDescription {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .temp {
-  font-size: 1.8em;
-  color: white;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
-.minmaxContainer {
-  width: 100%;
+.description {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* The min/max container is to the right of the icon/temperature */
+.minMaxContainer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .min,
 .max {
-  width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0px 20px;
-  gap: 4px;
+  align-items: center;
 }
 
-.max {
-  align-items: flex-start;
-  border-left: 2px solid white;
+.label {
+  font-size: 0.75rem;
+  opacity: 0.8;
 }
 
-.maxHeading,
-.minHeading {
-  font-size: 0.7em;
+.value {
+  font-size: 1rem;
   font-weight: 600;
-  color: white;
 }
 
-.maxTemp,
-.minTemp {
-  font-size: 0.6em;
-  font-weight: 500;
-  color: rgb(197, 197, 197);
+/* Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.cardContainer::before {
-  width: 100px;
-  height: 100px;
-  content: "";
-  position: absolute;
-  background-color: rgb(144, 161, 255);
-  z-index: -1;
-  border-radius: 50%;
-  left: 100px;
-  top: 50px;
-  transition: all 1s;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.cardContainer:hover::before {
-  transform: translate(-50px, 50px);
+/* Responsive styles for phone screens */
+@media (max-width: 480px) {
+  .cardContainer {
+    width: 100%;
+    max-width: 100%;
+    margin: 8px;
+  }
+
+  .topRow {
+    margin-bottom: 8px;
+  }
+
+  .temp {
+    font-size: 1.6rem;
+  }
+
+  .weatherIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
 }

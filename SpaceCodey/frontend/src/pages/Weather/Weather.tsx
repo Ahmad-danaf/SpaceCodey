@@ -20,8 +20,9 @@ interface Forecast {
 }
 
 interface CityWeather {
-  weather: TodayWeather;
-  forecasts: Forecast[];
+  weather: TodayWeather | null;
+  forecasts: Forecast[] | null;
+  error?: string | null;
 }
 
 interface ApiResponse {
@@ -47,8 +48,9 @@ const Weather: React.FC = () => {
   const fetchWeatherData = async () => {
     try {
       setLoading(true);
+      // Make the API request.
       const response = await axios.get<ApiResponse>(
-        `${API_BASE_URL}/weather/?city1=${city1}&city2=${city2}`,
+        `${API_BASE_URL}/weather/?city1=${city1.toLowerCase().trim()}&city2=${city2.toLowerCase().trim()}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -59,8 +61,12 @@ const Weather: React.FC = () => {
       setWeatherData(response.data);
       setShowForm(false);
       setError(null);
-    } catch (err) {
-      setError("Unable to fetch weather data. Please try again.");
+    } catch (err: any) {
+      let errorMessage = "Unable to fetch weather data. Please try again later.";
+      if (axios.isAxiosError(err) && err.response && err.response.data && err.response.data.error) {
+        errorMessage = err.response.data.error + " Please try again later.";
+      }
+      setError(errorMessage);
       setWeatherData(null);
     } finally {
       setLoading(false);
@@ -118,77 +124,116 @@ const Weather: React.FC = () => {
             {loading ? "Loading..." : "Launch"}
           </button>
           {loading && <div className={styles.loader}></div>}
+          {error && <p className={styles.error}>{error}</p>}
         </form>
       ) : (
         <div className={styles.weatherContainer}>
           {loading && <div className={styles.loader}></div>}
           {error && <p className={styles.error}>{error}</p>}
 
+          {/* Render City 1 weather or its error message */}
           {weatherData?.city1 && (
             <div className={styles.cityContainer}>
-              <h2 className={styles.cityTitle}>{weatherData.city1.weather.city.toUpperCase()}</h2>
-              <div className={styles.cardContainer}>
-                <div className={styles.todayWeather}>
-                  <WeatherCard
-                    city={weatherData.city1.weather.city}
-                    day={weatherData.city1.forecasts[0].day}
-                    weatherDescription={weatherData.city1.weather.description}
-                    icon={weatherData.city1.weather.icon}
-                    temperature={weatherData.city1.weather.temperature}
-                    minTemp={weatherData.city1.forecasts[0].min_temp}
-                    maxTemp={weatherData.city1.forecasts[0].max_temp}
-                  />
+              {weatherData.city1.error ? (
+                <div className={styles.cityError}>
+                  <h2 className={styles.cityTitle}>City 1 Error</h2>
+                  <p className={styles.error}>
+                    {weatherData.city1.error}. Please try again later.
+                  </p>
                 </div>
-                <div className={styles.forecastContainer}>
-                  {weatherData.city1.forecasts.map((forecast, index) => (
-                    index!=0 && <div key={`city1-forecast-${index}`} className={styles.forecastCard}>
-                      <WeatherCard
-                        city={weatherData.city1?.weather?.city ?? ""}
-                        day={forecast.day}
-                        weatherDescription={forecast.description}
-                        icon={forecast.icon}
-                        temperature={forecast.max_temp}
-                        minTemp={forecast.min_temp}
-                        maxTemp={forecast.max_temp}
-                      />
+              ) : (
+                weatherData.city1.weather &&
+                weatherData.city1.forecasts && (
+                  <>
+                    <h2 className={styles.cityTitle}>
+                      {weatherData.city1.weather.city.toUpperCase()}
+                    </h2>
+                    <div className={styles.cardContainer}>
+                      <div className={styles.todayWeather}>
+                        <WeatherCard
+                          city={weatherData.city1.weather.city}
+                          day={weatherData.city1.forecasts[0].day}
+                          weatherDescription={weatherData.city1.weather.description}
+                          icon={weatherData.city1.weather.icon}
+                          temperature={weatherData.city1.weather.temperature}
+                          minTemp={weatherData.city1.forecasts[0].min_temp}
+                          maxTemp={weatherData.city1.forecasts[0].max_temp}
+                        />
+                      </div>
+                      <div className={styles.forecastContainer}>
+                        {weatherData.city1.forecasts.map((forecast, index) =>
+                          index !== 0 ? (
+                            <div key={`city1-forecast-${index}`} className={styles.forecastCard}>
+                              <WeatherCard
+                                city={weatherData.city1?.weather?.city || ""}
+                                day={forecast.day}
+                                weatherDescription={forecast.description}
+                                icon={forecast.icon}
+                                temperature={forecast.max_temp}
+                                minTemp={forecast.min_temp}
+                                maxTemp={forecast.max_temp}
+                              />
+                            </div>
+                          ) : null
+                        )}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </>
+                )
+              )}
             </div>
           )}
 
+          {/* Render City 2 weather or its error message */}
           {weatherData?.city2 && (
             <div className={styles.cityContainer}>
-              <h2 className={styles.cityTitle}>{weatherData.city2.weather.city.toUpperCase()}</h2>
-              <div className={styles.cardContainer}>
-                <div className={styles.todayWeather}>
-                  <WeatherCard
-                    city={weatherData.city2.weather.city}
-                    day={weatherData.city2.forecasts[0].day}
-                    weatherDescription={weatherData.city2.weather.description}
-                    icon={weatherData.city2.weather.icon}
-                    temperature={weatherData.city2.weather.temperature}
-                    minTemp={weatherData.city2.forecasts[0].min_temp}
-                    maxTemp={weatherData.city2.forecasts[0].max_temp}
-                  />
+              {weatherData.city2.error ? (
+                <div className={styles.cityError}>
+                  <h2 className={styles.cityTitle}>City 2 Error</h2>
+                  <p className={styles.error}>
+                    {weatherData.city2.error}. Please try again later.
+                  </p>
                 </div>
-                <div className={styles.forecastContainer}>
-                  {weatherData.city2.forecasts.map((forecast, index) => (
-                    index!=0 && <div key={`city2-forecast-${index}`} className={styles.forecastCard}>
-                      <WeatherCard
-                        city={weatherData.city2?.weather?.city ?? ""}
-                        day={forecast.day}
-                        weatherDescription={forecast.description}
-                        icon={forecast.icon}
-                        temperature={forecast.max_temp}
-                        minTemp={forecast.min_temp}
-                        maxTemp={forecast.max_temp}
-                      />
+              ) : (
+                weatherData.city2.weather &&
+                weatherData.city2.forecasts && (
+                  <>
+                    <h2 className={styles.cityTitle}>
+                      {weatherData.city2.weather.city.toUpperCase()}
+                    </h2>
+                    <div className={styles.cardContainer}>
+                      <div className={styles.todayWeather}>
+                        <WeatherCard
+                          city={weatherData.city2.weather.city}
+                          day={weatherData.city2.forecasts[0].day}
+                          weatherDescription={weatherData.city2.weather.description}
+                          icon={weatherData.city2.weather.icon}
+                          temperature={weatherData.city2.weather.temperature}
+                          minTemp={weatherData.city2.forecasts[0].min_temp}
+                          maxTemp={weatherData.city2.forecasts[0].max_temp}
+                        />
+                      </div>
+                      <div className={styles.forecastContainer}>
+                        {weatherData.city2.forecasts.map((forecast, index) =>
+                          index !== 0 ? (
+                            <div key={`city2-forecast-${index}`} className={styles.forecastCard}>
+                              <WeatherCard
+                                city={weatherData.city2?.weather?.city || ""}
+                                day={forecast.day}
+                                weatherDescription={forecast.description}
+                                icon={forecast.icon}
+                                temperature={forecast.max_temp}
+                                minTemp={forecast.min_temp}
+                                maxTemp={forecast.max_temp}
+                              />
+                            </div>
+                          ) : null
+                        )}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </>
+                )
+              )}
             </div>
           )}
         </div>
