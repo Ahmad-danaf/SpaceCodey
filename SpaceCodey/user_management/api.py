@@ -1,140 +1,71 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status, permissions
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import get_object_or_404
-from django.utils.http import urlsafe_base64_decode
-from .models import CustomUser, Profile
-from .serializers import UserSerializer, ProfileSerializer, LoginSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from django.contrib.auth import get_user_model
+from .serializers import RegisterSerializer
 from .utils.send_verification_email import send_verification_email
-from django.http import JsonResponse
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
 
-
-class RegisterAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            user.is_active = False  # Deactivate account until email is confirmed
-            user.save()
-
-            # Send verification email
             send_verification_email(request, user)
+            return Response({'message': 'Registration successful. Please verify your email.'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            return JsonResponse(
-                {"message": "Please confirm your email address to complete the registration."},
-                status=status.HTTP_201_CREATED,
-            )
-        return JsonResponse({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LoginAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            username = serializer.validated_data.get("username")
-            password = serializer.validated_data.get("password")
-            user = authenticate(username=username, password=password)
-
-            if user:
-                if not user.is_active:
-                    return JsonResponse(
-                        {"error": "Your account is inactive. Please contact support."},
-                        status=status.HTTP_401_UNAUTHORIZED,
-                    )
-
-                if not user.email_verified:  # Check email verification
-                    return JsonResponse(
-                        {"error": "Please verify your email address."},
-                        status=status.HTTP_401_UNAUTHORIZED,
-                    )
-
-                # Generate or retrieve the token
-                token, _ = Token.objects.get_or_create(user=user)
-                login(request, user)
-                return JsonResponse(
-                    {"message": f"Welcome back, {user.username}!", "token": token.key},
-                    status=status.HTTP_200_OK,
-                )
-
-            return JsonResponse({"error": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
-
-        return JsonResponse({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LogoutAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        logout(request)
-        return JsonResponse({"message": "You have successfully logged out."}, status=status.HTTP_200_OK)
-
-
-class ActivateAccountAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def get(self, request, uidb64, token):
         try:
-            uid = urlsafe_base64_decode(uidb64).decode()
-            user = CustomUser.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-            return JsonResponse(
-                {"error": "Invalid activation link or user does not exist."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if default_token_generator.check_token(user, token):
-            user.is_active = True
-            user.email_verified = True
-            user.save()
-            login(request, user)
-            return JsonResponse({"message": "Your account has been activated successfully."}, status=status.HTTP_200_OK)
-
-        return JsonResponse({"error": "The activation link is invalid or expired."}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProfileAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        serializer = ProfileSerializer(profile)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-
-    def put(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-        return JsonResponse({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except KeyError:
+            return Response({"detail": "Refresh token is missing"}, status=status.HTTP_400_BAD_REQUEST)
+        except TokenError:
+            return Response({"detail": "Invalid or expired token"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        if not self.user.email_verified:
+            raise AuthenticationFailed('Email not verified. Please check your inbox.')
+        return data
 
 
-class ResendVerificationEmailAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    
+    
+User = get_user_model()
+
+class ResendVerificationView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
-        email = request.data.get("email")
-
+        email = request.data.get('email')
         if not email:
-            return JsonResponse({"error": "Please provide a valid email address."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            user = CustomUser.objects.get(email=email)
+            user = User.objects.get(email=email)
 
             if user.email_verified:
-                return JsonResponse({"message": "Your email is already verified."}, status=status.HTTP_200_OK)
+                return Response({'message': 'Email is already verified.'}, status=status.HTTP_200_OK)
 
             send_verification_email(request, user)
-            return JsonResponse({"message": "A new verification email has been sent."}, status=status.HTTP_200_OK)
+            return Response({'message': 'Verification email has been resent.'}, status=status.HTTP_200_OK)
 
-        except CustomUser.DoesNotExist:
-            return JsonResponse(
-                {"error": "No account associated with this email address."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+        except User.DoesNotExist:
+            return Response({'error': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)

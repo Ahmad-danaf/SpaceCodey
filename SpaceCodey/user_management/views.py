@@ -72,10 +72,10 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         messages.success(request, 'Your account has been activated successfully.')
-        return redirect('home')
+        return redirect('/')
     else:
         messages.error(request, 'The activation link is invalid.')
-        return redirect('home')
+        return redirect('/')
 
 
 def update_profile(request):
